@@ -1,3 +1,3 @@
 # projetPhp
  
- Hornberguer Théo, Courrier Louis, Monza Maxime, Fabrega Jocelyn, Dero Rémi
+ Hornberger Théo, Courier Louis, Monza Maxime, Fabrega Jocelyn, Dero Rémi
