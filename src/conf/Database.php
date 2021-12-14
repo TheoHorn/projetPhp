@@ -1,6 +1,6 @@
 <?php
-
 namespace wishlist\conf;
+require_once __DIR__. '/../vendor/autoload.php';
 use Illuminate\Database\Capsule\Manager as DB;
 
 class Database {
@@ -21,5 +21,6 @@ class Database {
         ] );
         $db->setAsGlobal();
         $db->bootEloquent();
+        print("connecte");
     }
 }
