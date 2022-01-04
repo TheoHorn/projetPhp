@@ -1,26 +1,21 @@
 <?php
+
 namespace wishlist\conf;
-require_once __DIR__. '/../vendor/autoload.php';
+require_once './vendor/autoload.php';
+
 use Illuminate\Database\Capsule\Manager as DB;
 
-class Database {
-
+class Database
+{
     public static function connect(){
-        $bddConfig = parse_ini_file('conf.ini');
+
+        $conf = parse_ini_file(__DIR__.'/conf.ini');
 
         $db = new DB();
-        $db->addConnection( [
-            'driver'    => 'mysql',
-            'host'      => $bddConfig['host'],
-            'database'  => $bddConfig['database'],
-            'username'  => $bddConfig['username'],
-            'password'  => $bddConfig['password'],
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => ''
-        ] );
+        if($conf) $db->addConnection($conf);
+
         $db->setAsGlobal();
         $db->bootEloquent();
-        print("connecte");
     }
+
 }
