@@ -4,6 +4,6 @@ namespace wishlist\model;
 
 class Utilisateur extends \Illuminate\Database\Eloquent\Model
 {
-    protected $table = 'utilisateur';
-    protected $primaryKey = 'nom';
+    protected $table = 'user';
+    protected $primaryKey = 'id_user';
 }

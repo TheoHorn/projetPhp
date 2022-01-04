@@ -35,8 +35,9 @@ class ListeControleur
         return $rs;
     }
 
-    function nouvelleListe(Request $rq, Response $rs, array $args)
+    function nouvelleListe(Request $rq, Response $rs, array $args) : Response
     {
+
         return $rs;
     }
 }
