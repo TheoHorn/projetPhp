@@ -24,7 +24,7 @@ $app->get('/item/{id}', function(Request $rq, Response $rs, array $args): Respon
 });
 
 $app->get('/liste', function(Request $rq, Response $rs, array $args): Response {
-    return (new \wishlist\controleur\ListeControleur)->afficheListes($rq,$rs,$args);
+    return (new \wishlist\controleur\ListeControleur)->afficherListes($rq,$rs,$args);
 });
 
 $app->get('/liste/new', function(Request $rq, Response $rs, array $args): Response {
@@ -32,7 +32,7 @@ $app->get('/liste/new', function(Request $rq, Response $rs, array $args): Respon
 });
 
 $app->get('/liste/{token}', function(Request $rq, Response $rs, array $args): Response {
-    return (new \wishlist\controleur\ListeControleur)->afficheListe($rq,$rs,$args);
+    return (new \wishlist\controleur\ListeControleur)->afficherListe($rq,$rs,$args);
 });
 
 $app->get('/Connection', function(Request $rq, Response $rs, array $args): Response {
