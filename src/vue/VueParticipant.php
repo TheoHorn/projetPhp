@@ -39,6 +39,8 @@ class VueParticipant
             foreach ($items as $item) {
                 $rs .= '<li><a href="../item/' . $item->id . '">' . $item->nom . '</a>';
                 $rs .= '<img src="../web/img/' . $item->img . '" alt="' . $item->nom . '" height="200" width="200"/>';
+                //if pas encore reserve
+                $rs .= '<a href="../item/' . $item->id . '/reservation">Reserver</a>';
             }
             $rs .= "</ol></div>";
         }
@@ -60,9 +62,10 @@ class VueParticipant
 
     private function affichageItem()
     {
-        $item = $this->tabListeItem[0];
+        $item = $this->tabListeItem;
+        $rs="";
         $rs = '<div>'.$item->nom . '<br>' . $item->descr . '<br>'. $item->tarif .' €</div>';
-        $rs .= '<img src="../web/img/' . $item->img . '" alt="' . $item->nom . '" height="200" width="200"/>';
+        $rs .= '<img src="../src/img/' . $item->img . '" alt="' . $item->nom . '" height="200" width="200"/>';
 
         return $rs;
     }
@@ -74,6 +77,9 @@ class VueParticipant
                 break;
             case self::LIST_VIEW :
                 $content = $this->affichageListe();
+                break;
+            case self::ACCEUIL :
+                $content = $this->acceuil();
                 break;
             case self::ITEM_VIEW :
                 $content = $this->affichageItem();
