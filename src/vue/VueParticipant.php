@@ -60,8 +60,7 @@ class VueParticipant
 
     private function affichageItem()
     {
-        $item = $this->tabListeItem;
-        $rs="";
+        $item = $this->tabListeItem[0];
         $rs = '<div>'.$item->nom . '<br>' . $item->descr . '<br>'. $item->tarif .' €</div>';
         $rs .= '<img src="../web/img/' . $item->img . '" alt="' . $item->nom . '" height="200" width="200"/>';
 
