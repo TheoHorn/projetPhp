@@ -13,7 +13,7 @@ class ItemControleur
 
         foreach ($items as $item) {
             $html = '<p><a href="./item/'.$item->id.'">'.$item->nom.'</a></p>';
-            $html .= '<img src="src/img/'.$item->img.'" alt="'.$item->nom.'" height="200" width="200"/>';
+            $html .= '<img src="web/img/'.$item->img.'" alt="'.$item->nom.'" height="200" width="200"/>';
             $rs->getBody()->write($html);
         }
         return $rs;
