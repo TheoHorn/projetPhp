@@ -26,6 +26,7 @@ class VueParticipant
         foreach ($this->tabListeItem as $val) {
             $s .= "<li>" . '<a href="./liste/'.$val->token.'">'.$val->titre.'</a>'. "</li>";
         }
+        $s .= "<input type=\"button\" value=\"cree liste\">";
         $s .= "</ol></div>";
         return $s;
     }
