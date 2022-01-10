@@ -39,6 +39,8 @@ class VueParticipant
             foreach ($items as $item) {
                 $rs .= '<li><a href="../item/' . $item->id . '">' . $item->nom . '</a>';
                 $rs .= '<img src="../src/img/' . $item->img . '" alt="' . $item->nom . '" height="200" width="200"/>';
+                //if pas encore reserve
+                $rs .= '<a href="../item/' . $item->id . '/reservation">Reserver</a>';
             }
             $rs .= "</ol></div>";
         }

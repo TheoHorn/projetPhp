@@ -61,6 +61,9 @@ class VueMembre
                 $rs .= '<img src="../src/img/' . $item->img . '" alt="' . $item->nom . '" height="200" width="200"/>';
             }
             $rs .= "</ol></div>";
+            $rs .= "<div>
+                    <a href='../item/new'>Ajouter un Item à la liste</a>
+                </div>";
         }
         return $rs;
     }
