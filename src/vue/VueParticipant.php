@@ -13,6 +13,7 @@ class VueParticipant
     const LIST_VIEW = 2;
     const INSCRIPTION = 3;
     const ACCEUIL = 4;
+    const ITEM_VIEW = 5;
 
     public function __construct($li, $selec)
     {
@@ -57,6 +58,16 @@ class VueParticipant
         return $rs;
     }
 
+    private function affichageItem()
+    {
+        $item = $this->tabListeItem;
+        $rs="";
+        $rs = '<div>'.$item->nom . '<br>' . $item->descr . '<br>'. $item->tarif .' €</div>';
+        $rs .= '<img src="../src/img/' . $item->img . '" alt="' . $item->nom . '" height="200" width="200"/>';
+
+        return $rs;
+    }
+
     public function render(){
         switch ($this->selecteur){
             case self::LISTS_VIEW :
@@ -67,6 +78,9 @@ class VueParticipant
                 break;
             case self::ACCEUIL :
                 $content = $this->acceuil();
+                break;
+            case self::ITEM_VIEW :
+                $content = $this->affichageItem();
                 break;
             default :
                 $content = $this->affichageListes();
@@ -83,4 +97,6 @@ class VueParticipant
         return $html;
 
     }
+
+
 }
