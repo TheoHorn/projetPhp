@@ -11,6 +11,8 @@ class VueParticipant
     private $selecteur;
     const LISTS_VIEW = 1;
     const LIST_VIEW = 2;
+    const INSCRIPTION = 3;
+    const ACCEUIL = 4;
 
     public function __construct($li, $selec)
     {
@@ -42,6 +44,19 @@ class VueParticipant
         return $rs;
     }
 
+    private function acceuil() {
+        $urlitem = "item";
+        $urllist = "liste";
+
+        $rs = "<h1>My WishList </h1>";
+        $rs .= "<p><a href='$urlitem'>Items</a></p>";
+        $rs .= "<p><a href='$urllist'>Listes</a></p>";
+        $rs .='<a href="./Connection"><input type="button" value="Se Connecter"></a>';
+        $rs .='<a href="./Inscription"><input type="button" value="S\'inscrire"></a>';
+
+        return $rs;
+    }
+
     public function render(){
         switch ($this->selecteur){
             case self::LISTS_VIEW :
@@ -49,6 +64,9 @@ class VueParticipant
                 break;
             case self::LIST_VIEW :
                 $content = $this->affichageListe();
+                break;
+            case self::ACCEUIL :
+                $content = $this->acceuil();
                 break;
             default :
                 $content = $this->affichageListes();

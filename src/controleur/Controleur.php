@@ -4,21 +4,21 @@ namespace wishlist\controleur;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use wishlist\model\Utilisateur;
+use wishlist\vue\VueMembre;
+use wishlist\vue\VueParticipant;
 
 class Controleur
 {
-    function acceuil(Request $rq, Response $rs, array $args): Response {
-
-        $urlitem = "item";
-        $urllist = "liste";
-
-        $html = "<h1>My WishList </h1>";
-        $html .= "<p><a href='$urlitem'>Items</a></p>";
-        $html .= "<p><a href='$urllist'>Listes</a></p>";
-        $html .='<a href="./Connection"><input type="button" value="Se Connecter"></a>';
-
-        $rs->getBody()->write($html);
+    function acceuil(Request $rq, Response $rs, array $args)
+    {
+        $v = null;
+        session_start();
+        if(isset($_SESSION['username'])) {
+            $v = new VueMembre(null, VueMembre::ACCEUIL);
+        } else {
+            $v = new VueParticipant(null, VueParticipant::ACCEUIL);
+        }
+        $rs->getBody()->write($v->render());
         return $rs;
     }
 
@@ -36,6 +36,13 @@ class Controleur
             <input type="submit" name="submit" value="Valider">
         </form>';
         $rs->getBody()->write($html);
+        return $rs;
+    }
+
+    function inscription(Request $rq, Response $rs, array $args)
+    {
+        $v = new VueParticipant(null, VueParticipant::INSCRIPTION);
+        $rs->getBody()->write($v->render());
         return $rs;
     }
 }

@@ -2,10 +2,11 @@
 
 use Slim\Http\Request;
 use Slim\Http\Response;
+use wishlist\conf\Database;
 
 require_once __DIR__ . '/src/vendor/autoload.php';
 
-\wishlist\conf\Database::connect();
+Database::connect();
 
 $c = new \Slim\Container(["settings"=>[
     "displayErrorDetails" => true]]);
@@ -39,8 +40,8 @@ $app->get('/Connection', function(Request $rq, Response $rs, array $args): Respo
     return (new \wishlist\controleur\Controleur)->seConnecter($rq,$rs,$args);
 });
 
-$app->get('/VueMembre', function(Request $rq, Response $rs, array $args): Response {
-    return (new \wishlist\vue\VueMembre)->acceuil($rq,$rs,$args);
+$app->get('/Inscription', function(Request $rq, Response $rs, array $args): Response {
+    return (new \wishlist\controleur\Controleur)->inscription($rq,$rs,$args);
 });
 
 
