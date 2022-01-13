@@ -11,12 +11,11 @@ class Controleur
 {
     function acceuil(Request $rq, Response $rs, array $args)
     {
-        $v = null;
         session_start();
         if(isset($_SESSION['username'])) {
-            $v = new VueMembre(null, VueMembre::ACCEUIL);
+            $v = new VueMembre(array(), VueMembre::ACCEUIL);
         } else {
-            $v = new VueParticipant(null, VueParticipant::ACCEUIL);
+            $v = new VueParticipant(array(), VueParticipant::ACCEUIL);
         }
         $rs->getBody()->write($v->render());
         return $rs;
@@ -41,7 +40,7 @@ class Controleur
 
     function inscription(Request $rq, Response $rs, array $args)
     {
-        $v = new VueParticipant(null, VueParticipant::INSCRIPTION);
+        $v = new VueParticipant(array(), VueParticipant::INSCRIPTION);
         $rs->getBody()->write($v->render());
         return $rs;
     }
