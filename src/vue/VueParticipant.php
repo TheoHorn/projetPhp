@@ -84,7 +84,7 @@ class VueParticipant
                 $content = $this->affichageItem();
                 break;
             default :
-                $content = $this->affichageListes();
+                $content = "<p>selecteur de la vue inadéquat</p>";
                 break;
         }
         $html = <<<END
