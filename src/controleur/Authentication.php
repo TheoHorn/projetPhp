@@ -9,6 +9,7 @@ class Authentication
 {
     public static function createUser($userid, $password) {
         // Ajout de la vérif de conformiter TODO
+        // $alea = random_bytes(32); a ajouter aussi ?
         $hash = password_hash($password, PASSWORD_DEFAULT, ['cost'=> 12]);
         Utilisateur::query()->insert(array('username'=>$userid,'password'=>$hash));
     }
