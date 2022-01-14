@@ -79,6 +79,6 @@ fabric.properties
 #ajout perso
 .idea/runConfigurations.xml
 src/conf/conf.ini
-src/conf/conf.ini
 .idea/php.xml
 .idea/projetPhp.iml
+
