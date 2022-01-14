@@ -27,7 +27,32 @@ class ListeControleur
 
     function nouvelleListe(Request $rq, Response $rs, array $args) : Response
     {
+        $html = '<h1>Creation de liste<h1>
 
+        <form method="POST" action="new/ajouter">
+            <p>Nom Liste</p>
+            <input type="text" name="Nom">
+            <p>Description</p>
+            <input type="test" name="Description">
+            <p>Date de fin de la liste</p>
+            <input type="date" name="Date"><br><br>
+            <input type="submit" name="submit" value="Valider">
+        </form>';
+        $rs->getBody()->write($html);
+        return $rs;
+    }
+
+    function ajouterListeBdd(Request $rq, Response $rs, array $args) : Response{
+        $html = "<h1> La liste a été crée vous pouvez y ajouter des items</h1>";
+        $nom =filter_var($_POST["Nom"],
+            FILTER_SANITIZE_STRING);
+        $desc =filter_var($_POST["Description"] ,
+            FILTER_SANITIZE_STRING);
+        $date = $_POST["Date"];
+        $html .= $nom;
+        $html .= $desc;
+        $html .= $date;
+        $rs->getBody()->write($html);
         return $rs;
     }
 }
