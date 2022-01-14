@@ -37,8 +37,12 @@ $app->post('/liste/new/ajouter', function(Request $rq, Response $rs, array $args
     return (new Control\ListeControleur)->ajouterListeBdd($rq,$rs,$args);
 });
 
-$app->get('/liste/{token}', function(Request $rq, Response $rs, array $args): Response {
+$app->get('/liste/voir/{tokenV}', function(Request $rq, Response $rs, array $args): Response {
     return (new Control\ListeControleur)->afficherListe($rq,$rs,$args);
+});
+
+$app->get('/liste/modifier/{tokenM}', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ListeControleur)->afficherModifListe($rq,$rs,$args);
 });
 
 $app->get('/Connection', function(Request $rq, Response $rs, array $args): Response {

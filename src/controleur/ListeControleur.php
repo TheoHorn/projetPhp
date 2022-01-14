@@ -18,8 +18,8 @@ class ListeControleur
     }
 
     function afficherListe(Request $rq, Response $rs, array $args): Response {
-        $identifiant = $args['token'];
-        $liste = Liste::query()->get('*')->where('token', '=', $identifiant);
+        $identifiant = $args['tokenV'];
+        $liste = Liste::query()->get('*')->where('tokenV', '=', $identifiant);
         $v = new VueParticipant( $liste , VueParticipant::LIST_VIEW) ;
         $rs->getBody()->write($v->render()) ;
         return $rs ;
@@ -50,13 +50,23 @@ class ListeControleur
             FILTER_SANITIZE_STRING);
         $date = $_POST["Date"];
 
-        $token = "nosecure".rand(1, 10000);
+        $tokenV = "nosecure".rand(1, 10000);
+        $tokenM = "nomodif".rand(1,10000);
 
         //ajout dans la bdd
         // il faut récupérer le user id quand la connexion sera faite TODO
-        Liste::query()->insert(array('user_id'=>0,'titre'=>$nom,'description'=>$desc,'expiration'=>$date,'token'=> $token));
-        $v = new VueParticipant($token,VueParticipant::AJOUT_LISTE);
+        Liste::query()->insert(array('user_id'=>0,'titre'=>$nom,'description'=>$desc,'expiration'=>$date,'tokenV'=> $tokenV,'tokenM'=>$tokenM));
+        $v = new VueParticipant(array("0"=>$tokenV,"1"=>$tokenM),VueParticipant::AJOUT_LISTE);
         $rs->getBody()->write($v->render());
         return $rs;
+    }
+
+    public function afficherModifListe(Request $rq, Response $rs, array $args)
+    {
+        $identifiant = $args['tokenM'];
+        $liste = Liste::query()->get('*')->where('tokenM', '=', $identifiant);
+        $v = new VueParticipant( $liste , VueParticipant::MODIF_VIEW) ;
+        $rs->getBody()->write($v->render()) ;
+        return $rs ;
     }
 }

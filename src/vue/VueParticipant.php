@@ -7,6 +7,7 @@ use wishlist\model\Item;
 class VueParticipant
 {
 
+
     private $tab;
     private $selecteur;
     const LISTS_VIEW = 1;
@@ -15,6 +16,7 @@ class VueParticipant
     const ACCEUIL = 4;
     const ITEM_VIEW = 5;
     const AJOUT_LISTE = 6;
+    const MODIF_VIEW = 7;
 
     public function __construct($li, $selec)
     {
@@ -25,9 +27,9 @@ class VueParticipant
     private function affichageListes(){
         $s = "<div><ol>";
         foreach ($this->tab as $val) {
-            $s .= "<li>" . '<a href="./liste/'.$val->token.'">'.$val->titre.'</a>'. "</li>";
+            $s .= "<li>" . '<a href="./liste/voir/'.$val->tokenV.'">'.$val->titre.'</a>'. "</li>";
         }
-        $s .= "<a href=\"./liste/new\"><input type=\"button\" value=\"cree liste\"></a>";
+        $s .= "<a href=\"./liste/new\"><input type=\"button\" value=\" Creer une nouvelle liste \"></a>";
         $s .= "</ol></div>";
         return $s;
     }
@@ -39,10 +41,10 @@ class VueParticipant
             $rs .= "<div><p><h1>" . $liste->titre . "</h1> <br> Description : " . $liste->description . "</p><ol>";
             $items = Item::query()->get('*')->where('liste_id', '=', $liste["no"]);
             foreach ($items as $item) {
-                $rs .= '<li><a href="../item/' . $item->id . '">' . $item->nom . '</a>';
-                $rs .= '<img src="../web/img/' . $item->img . '" alt="' . $item->nom . '" height="200" width="200"/>';
+                $rs .= '<li><a href="../../item/' . $item->id . '">' . $item->nom . '</a>';
+                $rs .= '<img src="../../web/img/' . $item->img . '" alt="' . $item->nom . '" height="200" width="200"/>';
                 //if pas encore reserve
-                $rs .= '<a href="../item/' . $item->id . '/reservation">Reserver</a>';
+                $rs .= '<a href="../../item/' . $item->id . '/reservation">Reserver</a>';
             }
             $rs .= "</ol></div>";
         }
@@ -74,7 +76,8 @@ class VueParticipant
     private function ajoutListe(){
         $html = "<h1> La liste a été crée vous pouvez y ajouter des items</h1>";
         $html .= "<div>
-                  <p> Le token de la nouvelle liste est le suivant $this->tab.</p>
+                  <p> Le token pour acceder aux informations de la nouvelle liste est le suivant : ".$this->tab[0]."</p>
+                  <p> Si vous souhaitez modifier votre liste, utiliser ce token : ".$this->tab[1]."</p>
                   </div>";
         return $html;
     }
@@ -96,6 +99,9 @@ class VueParticipant
             case self::AJOUT_LISTE :
                 $content = $this->ajoutListe();
                 break;
+            case self::MODIF_VIEW :
+                $content = $this->modifierListe();
+                break;
             default :
                 $content = "<p>selecteur de la vue inadéquat</p>";
                 break;
@@ -110,6 +116,24 @@ class VueParticipant
                 END ;
         return $html;
 
+    }
+
+    private function modifierListe()
+    {
+        //affiche uniquement la liste TODO
+        $rs = "";
+        foreach ($this->tab as $liste) {
+            $rs .= "<div><p><h1>" . $liste->titre . "</h1> <br> Description : " . $liste->description . "</p><ol>";
+            $items = Item::query()->get('*')->where('liste_id', '=', $liste["no"]);
+            foreach ($items as $item) {
+                $rs .= '<li><a href="../../item/' . $item->id . '">' . $item->nom . '</a>';
+                $rs .= '<img src="../../web/img/' . $item->img . '" alt="' . $item->nom . '" height="200" width="200"/>';
+                //if pas encore reserve
+                $rs .= '<a href="../../item/' . $item->id . '/reservation">Reserver</a>';
+            }
+            $rs .= "</ol></div>";
+        }
+        return $rs;
     }
 
 
