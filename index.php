@@ -34,7 +34,7 @@ $app->get('/liste/new', function(Request $rq, Response $rs, array $args): Respon
 });
 
 $app->post('/liste/new/ajouter', function(Request $rq, Response $rs, array $args): Response {
-    return (new \wishlist\controleur\ListeControleur)->ajouterListeBdd($rq,$rs,$args);
+    return (new Control\ListeControleur)->ajouterListeBdd($rq,$rs,$args);
 });
 
 $app->get('/liste/{token}', function(Request $rq, Response $rs, array $args): Response {

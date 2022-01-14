@@ -43,16 +43,20 @@ class ListeControleur
     }
 
     function ajouterListeBdd(Request $rq, Response $rs, array $args) : Response{
-        $html = "<h1> La liste a été crée vous pouvez y ajouter des items</h1>";
-        $nom =filter_var($_POST["Nom"],
+
+        $nom = filter_var($_POST["Nom"],
             FILTER_SANITIZE_STRING);
         $desc =filter_var($_POST["Description"] ,
             FILTER_SANITIZE_STRING);
         $date = $_POST["Date"];
-        $html .= $nom;
-        $html .= $desc;
-        $html .= $date;
-        $rs->getBody()->write($html);
+
+        $token = "nosecure".rand(1, 10000);
+
+        //ajout dans la bdd
+        // il faut récupérer le user id quand la connexion sera faite TODO
+        Liste::query()->insert(array('user_id'=>0,'titre'=>$nom,'description'=>$desc,'expiration'=>$date,'token'=> $token));
+        $v = new VueParticipant($token,VueParticipant::AJOUT_LISTE);
+        $rs->getBody()->write($v->render());
         return $rs;
     }
 }

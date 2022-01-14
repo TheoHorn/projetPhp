@@ -7,23 +7,24 @@ use wishlist\model\Item;
 class VueParticipant
 {
 
-    private $tabListeItem;
+    private $tab;
     private $selecteur;
     const LISTS_VIEW = 1;
     const LIST_VIEW = 2;
     const INSCRIPTION = 3;
     const ACCEUIL = 4;
     const ITEM_VIEW = 5;
+    const AJOUT_LISTE = 6;
 
     public function __construct($li, $selec)
     {
-        $this->tabListeItem = $li;
+        $this->tab = $li;
         $this->selecteur = $selec;
     }
 
     private function affichageListes(){
         $s = "<div><ol>";
-        foreach ($this->tabListeItem as $val) {
+        foreach ($this->tab as $val) {
             $s .= "<li>" . '<a href="./liste/'.$val->token.'">'.$val->titre.'</a>'. "</li>";
         }
         $s .= "<a href=\"./liste/new\"><input type=\"button\" value=\"cree liste\"></a>";
@@ -34,7 +35,7 @@ class VueParticipant
     private function affichageListe()
     {
         $rs = "";
-        foreach ($this->tabListeItem as $liste) {
+        foreach ($this->tab as $liste) {
             $rs .= "<div><p><h1>" . $liste->titre . "</h1> <br> Description : " . $liste->description . "</p><ol>";
             $items = Item::query()->get('*')->where('liste_id', '=', $liste["no"]);
             foreach ($items as $item) {
@@ -63,11 +64,19 @@ class VueParticipant
 
     private function affichageItem()
     {
-        foreach ($this->tabListeItem as $item) {
+        foreach ($this->tab as $item) {
             $rs = '<div>'.$item->nom . '<br>' . $item->descr . '<br>'. $item->tarif .' €</div>';
             $rs .= '<img src="../web/img/' . $item->img . '" alt="' . $item->nom . '" height="200" width="200"/>';
         }
         return $rs;
+    }
+
+    private function ajoutListe(){
+        $html = "<h1> La liste a été crée vous pouvez y ajouter des items</h1>";
+        $html .= "<div>
+                  <p> Le token de la nouvelle liste est le suivant $this->tab.</p>
+                  </div>";
+        return $html;
     }
 
     public function render(){
@@ -83,6 +92,9 @@ class VueParticipant
                 break;
             case self::ITEM_VIEW :
                 $content = $this->affichageItem();
+                break;
+            case self::AJOUT_LISTE :
+                $content = $this->ajoutListe();
                 break;
             default :
                 $content = "<p>selecteur de la vue inadéquat</p>";
