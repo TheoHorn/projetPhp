@@ -27,19 +27,18 @@ class ListeControleur
 
     function nouvelleListe(Request $rq, Response $rs, array $args) : Response
     {
-        $html = '<h1>Creation de liste<h1>
-
-        <form method="POST" action="new/ajouter">
-            <p>Nom Liste</p>
-            <input type="text" name="Nom">
-            <p>Description</p>
-            <input type="test" name="Description">
-            <p>Date de fin de la liste</p>
-            <input type="date" name="Date"><br><br>
-            <input type="submit" name="submit" value="Valider">
-        </form>';
-        $rs->getBody()->write($html);
+        $v = new VueParticipant( array() , VueParticipant::NEW_LISTE) ;
+        $rs->getBody()->write($v->render()) ;
         return $rs;
+    }
+
+    public function afficherModifListe(Request $rq, Response $rs, array $args)
+    {
+        $identifiant = $args['tokenM'];
+        $liste = Liste::query()->get('*')->where('tokenM', '=', $identifiant);
+        $v = new VueParticipant( $liste , VueParticipant::MODIF_VIEW) ;
+        $rs->getBody()->write($v->render()) ;
+        return $rs ;
     }
 
     function ajouterListeBdd(Request $rq, Response $rs, array $args) : Response{
@@ -61,12 +60,34 @@ class ListeControleur
         return $rs;
     }
 
-    public function afficherModifListe(Request $rq, Response $rs, array $args)
+    function modifierListeBdd(Request $rq, Response $rs, array $args) : Response{
+        $identifiant = $args['tokenM'];
+        $l = Liste::query()->get('*')->where('tokenM', '=', $identifiant);
+        foreach($l as $value){
+            $liste = $value;
+        }
+        $id = $liste->no;
+
+        $nom = filter_var($_POST["Nom"],
+            FILTER_SANITIZE_STRING);
+        $desc =filter_var($_POST["Description"] ,
+            FILTER_SANITIZE_STRING);
+        $date = $_POST["Date"];
+
+        //modif dans la bdd
+        // il faut récupérer le user id quand la connexion sera faite TODO
+        Liste::query()->where("no",$id)->update(array('titre'=>$nom,'description'=>$desc,'expiration'=>$date));
+        $v = new VueParticipant(array($id),VueParticipant::MODIF_EFFECTUE);
+        $rs->getBody()->write($v->render());
+        return $rs;
+    }
+
+    public function afficherModifInfosG(Request $rq, Response $rs, array $args)
     {
         $identifiant = $args['tokenM'];
-        $liste = Liste::query()->get('*')->where('tokenM', '=', $identifiant);
-        $v = new VueParticipant( $liste , VueParticipant::MODIF_VIEW) ;
+        $l = Liste::query()->get('*')->where('tokenM', '=', $identifiant);
+        $v = new VueParticipant( $l , VueParticipant::MODIF_INFOSG) ;
         $rs->getBody()->write($v->render()) ;
-        return $rs ;
+        return $rs;
     }
 }

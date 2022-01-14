@@ -8,6 +8,7 @@ class VueParticipant
 {
 
 
+
     private $tab;
     private $selecteur;
     const LISTS_VIEW = 1;
@@ -17,6 +18,9 @@ class VueParticipant
     const ITEM_VIEW = 5;
     const AJOUT_LISTE = 6;
     const MODIF_VIEW = 7;
+    const NEW_LISTE = 8;
+    const MODIF_INFOSG = 9;
+    const MODIF_EFFECTUE = 10;
 
     public function __construct($li, $selec)
     {
@@ -82,8 +86,69 @@ class VueParticipant
         return $html;
     }
 
-    public function render(){
-        switch ($this->selecteur){
+    private function affichageModifEffectue()
+    {
+        $html = "<h1> La liste a été modifié avec succès</h1>";
+        return $html;
+    }
+
+    private function modifierListe()
+    {
+        $rs = "";
+        foreach ($this->tab as $liste) {
+            $rs .= "<div><p><h1>" . $liste->titre . "</h1> <br> Description : " . $liste->description . "</p>";
+            $items = Item::query()->get('*')->where('liste_id', '=', $liste["no"]);
+            $rs.= "<p>Les items presents dans la liste :</p><ol>";
+            foreach ($items as $item) {
+                $rs .= '<li><a href="../../item/' . $item->id . '">' . $item->nom . '</a>';
+            }
+            $rs .= "</ol></div>";
+            $rs .='<a href="./'.$liste->tokenM.'/infosG"><input type="button" value=" Modifier les informations générales "></a>';
+            $rs .='<a href="./'.$liste->tokenM.'/ajoutItem"><input type="button" value=" Ajouter un item "></a>';
+        }
+        return $rs;
+    }
+
+    private function nouvelleListe()
+    {
+        $html = '<h1>Creation de liste<h1>
+
+        <form method="POST" action="new/ajouter">
+            <p>Nom Liste</p>
+            <input type="text" name="Nom">
+            <p>Description</p>
+            <input type="test" name="Description">
+            <p>Date de fin de la liste</p>
+            <input type="date" name="Date"><br><br>
+            <input type="submit" name="submit" value="Valider">
+        </form>';
+        return $html;
+    }
+
+
+    private function modifierInfosG()
+    {
+        foreach($this->tab as $value){
+            $liste = $value;
+        }
+        $_POST['id'] = $liste->no;
+        $html = '<h1>Modification de liste<h1>
+
+        <form method="POST" action="infosG/verification">
+            <p>Nom Liste</p>
+            <input type="text" name="Nom" value="'.$liste->titre.'">
+            <p>Description</p>
+            <input type="test" name="Description" value="'.$liste->description.'">
+            <p>Date de fin de la liste</p>
+            <input type="date" name="Date" value="'.$liste->expiration.'"><br><br>
+            <input type="submit" name="submit" value="Valider">
+        </form>';
+        return $html;
+    }
+
+    public function render()
+    {
+        switch ($this->selecteur) {
             case self::LISTS_VIEW :
                 $content = $this->affichageListes();
                 break;
@@ -102,6 +167,15 @@ class VueParticipant
             case self::MODIF_VIEW :
                 $content = $this->modifierListe();
                 break;
+            case self::NEW_LISTE :
+                $content = $this->nouvelleListe();
+                break;
+            case self::MODIF_INFOSG :
+                $content = $this->modifierInfosG();
+                break;
+            case self::MODIF_EFFECTUE :
+                $content = $this->affichageModifEffectue();
+                break;
             default :
                 $content = "<p>selecteur de la vue inadéquat</p>";
                 break;
@@ -113,28 +187,8 @@ class VueParticipant
                  $content
                 </div>
                 </body><html>
-                END ;
+                END;
         return $html;
 
     }
-
-    private function modifierListe()
-    {
-        //affiche uniquement la liste TODO
-        $rs = "";
-        foreach ($this->tab as $liste) {
-            $rs .= "<div><p><h1>" . $liste->titre . "</h1> <br> Description : " . $liste->description . "</p><ol>";
-            $items = Item::query()->get('*')->where('liste_id', '=', $liste["no"]);
-            foreach ($items as $item) {
-                $rs .= '<li><a href="../../item/' . $item->id . '">' . $item->nom . '</a>';
-                $rs .= '<img src="../../web/img/' . $item->img . '" alt="' . $item->nom . '" height="200" width="200"/>';
-                //if pas encore reserve
-                $rs .= '<a href="../../item/' . $item->id . '/reservation">Reserver</a>';
-            }
-            $rs .= "</ol></div>";
-        }
-        return $rs;
-    }
-
-
 }

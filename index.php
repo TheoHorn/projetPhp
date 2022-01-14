@@ -45,6 +45,18 @@ $app->get('/liste/modifier/{tokenM}', function(Request $rq, Response $rs, array 
     return (new Control\ListeControleur)->afficherModifListe($rq,$rs,$args);
 });
 
+$app->get('/liste/modifier/{tokenM}/infosG', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ListeControleur)->afficherModifInfosG($rq,$rs,$args);
+});
+
+$app->post('/liste/modifier/{tokenM}/infosG/verification', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ListeControleur)->modifierListeBdd($rq,$rs,$args);
+});
+
+$app->get('/liste/modifier/{tokenM}/ajoutItem', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ListeControleur)->ajouterItem($rq,$rs,$args);
+});
+
 $app->get('/Connection', function(Request $rq, Response $rs, array $args): Response {
     return (new Control\Controleur)->seConnecter($rq,$rs,$args);
 });
