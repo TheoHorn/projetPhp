@@ -21,6 +21,11 @@ class VueParticipant
     const NEW_LISTE = 8;
     const MODIF_INFOSG = 9;
     const MODIF_EFFECTUE = 10;
+    const AJOUT_ITEM = 11;
+    const AJOUT_ITEM_EFFECTUE = 12;
+    const MODIF_ITEM = 13;
+    const MODIF_ITEM_EFFECTUE = 14;
+    const SUPPRESSION_ITEM_LISTE = 15 ;
 
     public function __construct($li, $selec)
     {
@@ -89,6 +94,28 @@ class VueParticipant
     private function affichageModifEffectue()
     {
         $html = "<h1> La liste a été modifié avec succès</h1>";
+        $html .= '<a href="./../../'.$this->tab->tokenM.'"><input type="button" value=" Retour "></a>';
+        return $html;
+    }
+
+    private function ajoutItemEffectue()
+    {
+        $html = "<h1> L'item a été ajouté avec succès</h1>";
+        $html .= '<a href="./../../'.$this->tab->tokenM.'"><input type="button" value=" Retour "></a>';
+        return $html;
+    }
+
+    private function affichageModifItemEffectue()
+    {
+        $html = "<h1> L'item a été modifié avec succès</h1>";
+        $html .= '<a href="./../../../'.$this->tab->tokenM.'"><input type="button" value=" Retour "></a>';
+        return $html;
+    }
+
+    private function affichageSuppressionItemEffectue()
+    {
+        $html = "<h1> L'item a été supprimé avec succès</h1>";
+        $html .= '<a href="./../../../'.$this->tab->tokenM.'"><input type="button" value=" Retour "></a>';
         return $html;
     }
 
@@ -98,9 +125,9 @@ class VueParticipant
         foreach ($this->tab as $liste) {
             $rs .= "<div><p><h1>" . $liste->titre . "</h1> <br> Description : " . $liste->description . "</p>";
             $items = Item::query()->get('*')->where('liste_id', '=', $liste["no"]);
-            $rs.= "<p>Les items presents dans la liste :</p><ol>";
+            $rs.= "<p>Les items présents dans la liste :</p><ol>";
             foreach ($items as $item) {
-                $rs .= '<li><a href="../../item/' . $item->id . '">' . $item->nom . '</a>';
+                $rs .= '<li><a href="../../item/' . $item->id . '">' . $item->nom . '</a><a href="./'.$liste->tokenM.'/modifierItem/'.$item->id.'"><input type="button" value=" Modifier cet item "></a>';
             }
             $rs .= "</ol></div>";
             $rs .='<a href="./'.$liste->tokenM.'/infosG"><input type="button" value=" Modifier les informations générales "></a>';
@@ -131,7 +158,7 @@ class VueParticipant
         foreach($this->tab as $value){
             $liste = $value;
         }
-        $_POST['id'] = $liste->no;
+        //$_POST['id'] = $liste->no;
         $html = '<h1>Modification de liste<h1>
 
         <form method="POST" action="infosG/verification">
@@ -145,6 +172,52 @@ class VueParticipant
         </form>';
         return $html;
     }
+
+    private function affichageAjoutItem()
+    {
+        $html = '<h1>Ajout d\'un item<h1>
+
+        <form method="POST" action="ajoutItem/verification">
+            <p>Nom Item</p>
+            <input type="text" name="Nom">
+            <p>Description</p>
+            <input type="test" name="Description" >
+            <p>Prix en €</p>
+            <input type="number" step="0.01" name="Prix" ><br><br>
+            <p>Url renvoyant su un site tierce pour plus details du produit</p>
+            <input type="url" name="Url" >
+            <p>Image</p>
+            <input type="text" name="Image" >
+            <input type="submit" name="submit" value="Valider">
+        </form>';
+        return $html;
+    }
+
+    private function affichageModifItem()
+    {
+        foreach($this->tab as $value){
+            $item = $value;
+        }
+
+        $html = '<h1>Modification d\'un item<h1>
+
+        <form method="POST" action="'.$item->id.'/verification">
+            <p>Nom Item</p>
+            <input type="text" name="Nom" value="'.$item->nom.'">
+            <p>Description</p>
+            <input type="test" name="Description" value="'.$item->desc.'">
+            <p>Prix en €</p>
+            <input type="number" step="0.01" name="Prix" value="'.$item->tarif.'"><br><br>
+            <p>Url renvoyant su un site tierce pour plus details du produit</p>
+            <input type="url" name="Url" value="'.$item->url.'">
+            <p>Image</p>
+            <input type="text" name="Image" value="'.$item->img.'">
+            <input type="submit" name="submit" value="Valider">
+        </form>';
+        $html .= '<a href="'.$item->id.'/suppression"><input type="button" value=" Supprimer cet item "></a>';
+        return $html;
+    }
+
 
     public function render()
     {
@@ -176,6 +249,21 @@ class VueParticipant
             case self::MODIF_EFFECTUE :
                 $content = $this->affichageModifEffectue();
                 break;
+            case self::AJOUT_ITEM :
+                $content = $this->affichageAjoutItem();
+                break;
+            case self::AJOUT_ITEM_EFFECTUE :
+                $content = $this->ajoutItemEffectue();
+                break;
+            case self::MODIF_ITEM :
+                $content = $this->affichageModifItem();
+                break;
+            case self::MODIF_ITEM_EFFECTUE :
+                $content = $this->affichageModifItemEffectue();
+                break;
+            case self::SUPPRESSION_ITEM_LISTE :
+                $content = $this->affichageSuppressionItemEffectue();
+                break;
             default :
                 $content = "<p>selecteur de la vue inadéquat</p>";
                 break;
@@ -191,4 +279,6 @@ class VueParticipant
         return $html;
 
     }
+
+
 }

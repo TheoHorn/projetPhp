@@ -54,7 +54,23 @@ $app->post('/liste/modifier/{tokenM}/infosG/verification', function(Request $rq,
 });
 
 $app->get('/liste/modifier/{tokenM}/ajoutItem', function(Request $rq, Response $rs, array $args): Response {
-    return (new Control\ListeControleur)->ajouterItem($rq,$rs,$args);
+    return (new Control\ListeControleur)->affichageAjouterItem($rq,$rs,$args);
+});
+
+$app->post('/liste/modifier/{tokenM}/ajoutItem/verification', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ListeControleur)->ajouterItemListe($rq,$rs,$args);
+});
+
+$app->get('/liste/modifier/{tokenM}/modifierItem/{id}', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ItemControleur)->affichageModifierItem($rq,$rs,$args);
+});
+
+$app->post('/liste/modifier/{tokenM}/modifierItem/{id}/verification', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ItemControleur)->modifierItemListe($rq,$rs,$args);
+});
+
+$app->get('/liste/modifier/{tokenM}/modifierItem/{id}/suppression', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ItemControleur)->supprimerItemListe($rq,$rs,$args);
 });
 
 $app->get('/Connection', function(Request $rq, Response $rs, array $args): Response {

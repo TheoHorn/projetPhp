@@ -77,7 +77,7 @@ class ListeControleur
         //modif dans la bdd
         // il faut récupérer le user id quand la connexion sera faite TODO
         Liste::query()->where("no",$id)->update(array('titre'=>$nom,'description'=>$desc,'expiration'=>$date));
-        $v = new VueParticipant(array($id),VueParticipant::MODIF_EFFECTUE);
+        $v = new VueParticipant($liste,VueParticipant::MODIF_EFFECTUE);
         $rs->getBody()->write($v->render());
         return $rs;
     }
@@ -90,4 +90,46 @@ class ListeControleur
         $rs->getBody()->write($v->render()) ;
         return $rs;
     }
+
+    public function affichageAjouterItem(Request $rq, Response $rs, array $args)
+    {
+        $identifiant = $args['tokenM'];
+        $l = Liste::query()->get('*')->where('tokenM', '=', $identifiant);
+        $v = new VueParticipant( $l , VueParticipant::AJOUT_ITEM) ;
+        $rs->getBody()->write($v->render()) ;
+        return $rs;
+    }
+
+
+    public function ajouterItemListe(Request $rq, Response $rs, array $args)
+    {
+        $identifiant = $args['tokenM'];
+        $l = Liste::query()->get('*')->where('tokenM', '=', $identifiant);
+        foreach($l as $value){
+            $liste = $value;
+        }
+        $id = $liste->no;
+
+        $nom = filter_var($_POST["Nom"],
+            FILTER_SANITIZE_STRING);
+        $desc =filter_var($_POST["Description"] ,
+            FILTER_SANITIZE_STRING);
+        $url =filter_var($_POST["Url"] ,
+            FILTER_SANITIZE_STRING);
+        $prix = $_POST["Prix"];
+        $image = filter_var($_POST["Image"],
+            FILTER_SANITIZE_STRING);
+
+
+
+        //modif dans la bdd
+        Item::query()->insert(["liste_id" => $id, "nom" => $nom, "descr" => $desc, "tarif" => $prix, "url" => $url, "img" => $image]);
+        $v = new VueParticipant($liste,VueParticipant::AJOUT_ITEM_EFFECTUE);
+        $rs->getBody()->write($v->render());
+        return $rs;
+    }
+
+
+
+
 }
