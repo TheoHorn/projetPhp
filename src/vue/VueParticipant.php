@@ -205,7 +205,7 @@ class VueParticipant
             <p>Nom Item</p>
             <input type="text" name="Nom" value="'.$item->nom.'">
             <p>Description</p>
-            <input type="test" name="Description" value="'.$item->desc.'">
+            <input type="test" name="Description" value="'.$item->descr.'">
             <p>Prix en €</p>
             <input type="number" step="0.01" name="Prix" value="'.$item->tarif.'"><br><br>
             <p>Url renvoyant su un site tierce pour plus details du produit</p>
