@@ -24,10 +24,6 @@ class Authentication
     private static function loadProfile($userid) {
         $user = Utilisateur::query()->get(array('id','id_role'))->where('username','=',$userid);
         $auth = Role::query()->get('auth_level')->where('id_role','=',$user['id_role']);
-        if(isset($_SESSION)){
-            session_destroy();
-        }
-        session_start();
         $_SESSION['username'] = $userid;
         $_SESSION['userid'] = $user['id'];
         $_SESSION['role'] = $user['id_role'];

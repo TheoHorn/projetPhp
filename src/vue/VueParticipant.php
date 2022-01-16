@@ -13,7 +13,6 @@ class VueParticipant
     private $selecteur;
     const LISTS_VIEW = 1;
     const LIST_VIEW = 2;
-    const INSCRIPTION = 3;
     const ACCEUIL = 4;
     const ITEM_VIEW = 5;
     const AJOUT_LISTE = 6;
@@ -67,7 +66,7 @@ class VueParticipant
         $rs = "<h1>My WishList </h1>";
         $rs .= "<p><a href='$urlitem'>Items</a></p>";
         $rs .= "<p><a href='$urllist'>Listes</a></p>";
-        $rs .='<a href="./Connection"><input type="button" value="Se Connecter"></a>';
+        $rs .='<a href="./Connexion"><input type="button" value="Se Connecter"></a>';
         $rs .='<a href="./Inscription"><input type="button" value="S\'inscrire"></a>';
 
         return $rs;
@@ -75,9 +74,18 @@ class VueParticipant
 
     private function affichageItem()
     {
-        foreach ($this->tab as $item) {
-            $rs = '<div>'.$item->nom . '<br>' . $item->descr . '<br>'. $item->tarif .' €</div>';
-            $rs .= '<img src="../web/img/' . $item->img . '" alt="' . $item->nom . '" height="200" width="200"/>';
+
+        $rs = '<div>'.$this->tab->nom . '<br>' . $this->tab->descr . '<br>'. $this->tab->tarif .' €</div>';
+        $rs .= '<img src="../web/img/' . $this->tab->img . '" alt="' . $this->tab->nom . '" height="200" width="200"/>';
+        if($this->tab->nomParticipant == null) {
+            $rs.='<h1>Réserver<h1>
+            <form method="post" action="">
+                <p>Nom</p>
+                <input type="text" name="nom" required>
+                <input type="submit" name="reservation" value="Valider">
+            </form>';
+        } else {
+            $rs.='<p>Réserver par : '.$this->tab->nomParticipant .'</p>';
         }
         return $rs;
     }

@@ -23,17 +23,22 @@ class ItemControleur
 
     function afficheItem(Request $rq, Response $rs, array $args): Response {
         $id = $args['id'];
-        $item = Item::query()->get('*')->where('id', '=', $id);
-        $v = new VueParticipant( $item , VueParticipant::ITEM_VIEW) ;
+        $item = Item::query()->get('*')->where('id', '=', $id)->first();
+
+        if(isset($_POST['reservation'])) {
+            $nom = filter_var($_POST['nom'],FILTER_SANITIZE_STRING);
+            Item::query()->where("id", $id)->update(["nomParticipant" => $nom,]);
+        }
+
+        $v = new VueParticipant( $item , VueParticipant::ITEM_VIEW);
         $rs->getBody()->write($v->render()) ;
         return $rs ;
-
     }
 
     public function affichageModifierItem(Request $rq, Response $rs, array $args): Response
     {
         $identifiant = $args['id'];
-        $l = Item::query()->get('*')->where('id', '=', $identifiant);
+        $l = Item::query()->get('*')->where('id', '=', $identifiant)->first();
         $v = new VueParticipant( $l , VueParticipant::MODIF_ITEM) ;
         $rs->getBody()->write($v->render()) ;
         return $rs;
@@ -43,7 +48,7 @@ class ItemControleur
     {
         $identifiant = $args['tokenM'];
         $id = $args['id'];
-        $l = Liste::query()->get('*')->where('tokenM', '=', $identifiant);
+        $l = Liste::query()->get('*')->where('tokenM', '=', $identifiant)->first();
         foreach($l as $value){
             $liste = $value;
         }
@@ -72,7 +77,7 @@ class ItemControleur
     {
         $identifiant = $args['tokenM'];
         $id = $args['id'];
-        $l = Liste::query()->get('*')->where('tokenM', '=', $identifiant);
+        $l = Liste::query()->get('*')->where('tokenM', '=', $identifiant)->first();
         foreach($l as $value){
             $liste = $value;
         }
