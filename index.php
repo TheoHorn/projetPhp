@@ -8,13 +8,13 @@ require_once __DIR__ . '/src/vendor/autoload.php';
 
 Database::connect();
 
-$c = new \Slim\Container(["settings"=>[
+$app= new \Slim\App(["settings"=>[
     "displayErrorDetails" => true]]);
-$app= new \Slim\App($c);
+$container = $app->getContainer();
 
-$app->get('/', function(Request $rq, Response $rs, array $args): Response {
+$app->get('/', function(Request $rq, Response $rs, array $args) use($app) {
     return (new \wishlist\controleur\Controleur)->acceuil($rq,$rs,$args);
-});
+})->setName('home');
 
 $app->get('/item', function(Request $rq, Response $rs, array $args): Response {
     return (new wishlist\controleur\ItemControleur)->afficheItems($rq,$rs,$args);
@@ -40,30 +40,29 @@ $app->post('/liste/new', function(Request $rq, Response $rs, array $args): Respo
     return (new \wishlist\controleur\ListeControleur)->nouvelleListe($rq,$rs,$args);
 });
 
-$app->get('/liste/new/ajouter', function(Request $rq, Response $rs, array $args): Response {
+$app->post('/liste/new/', function(Request $rq, Response $rs, array $args): Response {
     return (new \wishlist\controleur\ListeControleur)->nouvelleListe($rq,$rs,$args);
 });
 
-$app->get('/liste/voir/{tokenV}', function(Request $rq, Response $rs, array $args): Response {
+$app->get('/liste/{tokenV}', function(Request $rq, Response $rs, array $args): Response {
     return (new \wishlist\controleur\ListeControleur)->afficherListe($rq,$rs,$args);
 });
 
-$app->get('/Connexion', function(Request $rq, Response $rs, array $args): Response {
+$app->get('/Connexion', function(Request $rq, Response $rs, array $args) use($app) {
     return (new \wishlist\controleur\UserControleur)->connection($rq,$rs,$args);
 });
 
-$app->post('/Connexion', function(Request $rq, Response $rs, array $args): Response {
+$app->post('/Connexion', function(Request $rq, Response $rs, array $args) use($app) {
     return (new \wishlist\controleur\UserControleur)->connection($rq,$rs,$args);
 });
 
-$app->get('/Inscription', function(Request $rq, Response $rs, array $args): Response {
+$app->get('/Inscription', function(Request $rq, Response $rs, array $args) use($app) {
     return (new \wishlist\controleur\UserControleur)->inscription($rq,$rs,$args);
 });
 
-$app->post('/Inscription', function(Request $rq, Response $rs, array $args): Response {
+$app->post('/Inscription', function(Request $rq, Response $rs, array $args )use($app) {
     return (new \wishlist\controleur\UserControleur)->inscription($rq,$rs,$args);
 });
-
 
 try {
     $app->run();

@@ -10,6 +10,7 @@ use wishlist\vue\VueUtilisateur;
 
 class Controleur
 {
+
     function acceuil(Request $rq, Response $rs, array $args)
     {
         $v = null;

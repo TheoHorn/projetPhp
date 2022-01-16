@@ -6,13 +6,23 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use wishlist\model\Item;
 use wishlist\model\Liste;
+use wishlist\vue\VueMembre;
 use wishlist\vue\VueParticipant;
+use const http\Client\Curl\POSTREDIR_301;
 
 class ListeControleur
 {
     public function afficherListes(Request $rq, Response $rs, $args):Response{
-        $liste = Liste::all();
-        $v = new VueParticipant( $liste , VueParticipant::LISTS_VIEW) ;
+        if($rq->getParam('tokenV')) {
+
+        }
+        if(isset($_SESSION['name'])) {
+            $liste = Liste::query()->get('*')->where('user_id','=',$_SESSION['id']);
+            $v = new VueMembre($liste, VueMembre::LISTS_VIEW);
+        } else {
+            $liste = Liste::query()->get('*')->where('visible','=','public');
+            $v = new VueParticipant( $liste , VueParticipant::LISTS_VIEW) ;
+        }
         $rs->getBody()->write($v->render()) ;
         return $rs ;
     }
@@ -27,7 +37,22 @@ class ListeControleur
 
     function nouvelleListe(Request $rq, Response $rs, array $args) : Response
     {
-        $v = new VueParticipant( array() , VueParticipant::NEW_LISTE) ;
+        $v = new VueParticipant( array() , VueParticipant::NEW_LISTE);
+        if(isset($_POST['submit'])) {
+            $nom = filter_var($_POST['Nom'],
+                FILTER_SANITIZE_STRING);
+            $desc =filter_var($_POST['Description'] ,
+                FILTER_SANITIZE_STRING);
+            $date = $_POST["Date"];
+
+            $tokenV = "nosecure".rand(1, 10000);
+            $tokenM = "nomodif".rand(1,10000);
+
+            //ajout dans la bdd
+            // il faut récupérer le user id quand la connexion sera faite TODO
+            Liste::query()->insert(array('user_id'=>0,'titre'=>$nom,'description'=>$desc,'expiration'=>$date,'tokenV'=> $tokenV,'tokenM'=>$tokenM));
+            $v = new VueParticipant(array("0"=>$tokenV,"1"=>$tokenM),VueParticipant::AJOUT_LISTE);
+        }
         $rs->getBody()->write($v->render()) ;
         return $rs;
     }
@@ -41,32 +66,10 @@ class ListeControleur
         return $rs ;
     }
 
-    function ajouterListeBdd(Request $rq, Response $rs, array $args) : Response{
-
-        $nom = filter_var($_POST["Nom"],
-            FILTER_SANITIZE_STRING);
-        $desc =filter_var($_POST["Description"] ,
-            FILTER_SANITIZE_STRING);
-        $date = $_POST["Date"];
-
-        $tokenV = "nosecure".rand(1, 10000);
-        $tokenM = "nomodif".rand(1,10000);
-
-        //ajout dans la bdd
-        // il faut récupérer le user id quand la connexion sera faite TODO
-        Liste::query()->insert(array('user_id'=>0,'titre'=>$nom,'description'=>$desc,'expiration'=>$date,'tokenV'=> $tokenV,'tokenM'=>$tokenM));
-        $v = new VueParticipant(array("0"=>$tokenV,"1"=>$tokenM),VueParticipant::AJOUT_LISTE);
-        $rs->getBody()->write($v->render());
-        return $rs;
-    }
-
     function modifierListeBdd(Request $rq, Response $rs, array $args) : Response{
         $identifiant = $args['tokenM'];
-        $l = Liste::query()->get('*')->where('tokenM', '=', $identifiant);
-        foreach($l as $value){
-            $liste = $value;
-        }
-        $id = $liste->no;
+        $l = Liste::query()->get('*')->where('tokenM', '=', $identifiant)->first();
+        $id = $l->no;
 
         $nom = filter_var($_POST["Nom"],
             FILTER_SANITIZE_STRING);
@@ -77,7 +80,7 @@ class ListeControleur
         //modif dans la bdd
         // il faut récupérer le user id quand la connexion sera faite TODO
         Liste::query()->where("no",$id)->update(array('titre'=>$nom,'description'=>$desc,'expiration'=>$date));
-        $v = new VueParticipant($liste,VueParticipant::MODIF_EFFECTUE);
+        $v = new VueParticipant($l,VueParticipant::MODIF_EFFECTUE);
         $rs->getBody()->write($v->render());
         return $rs;
     }
