@@ -6,9 +6,6 @@ use wishlist\model\Item;
 
 class VueParticipant
 {
-
-
-
     private $tab;
     private $selecteur;
     const LISTS_VIEW = 1;
@@ -35,7 +32,7 @@ class VueParticipant
     private function affichageListes(){
         $s = "<div><ol>";
         foreach ($this->tab as $val) {
-            $s .= "<li>" . '<a href="./liste/voir/'.$val->tokenV.'">'.$val->titre.'</a>'. "</li>";
+            $s .= "<li>" . '<a href="./liste/'.$val->tokenV.'">'.$val->titre.'</a>'. "</li>";
         }
         $s .= "<a href=\"./liste/new\"><input type=\"button\" value=\" Creer une nouvelle liste \"></a>";
         $s .= "</ol></div>";
@@ -49,10 +46,8 @@ class VueParticipant
             $rs .= "<div><p><h1>" . $liste->titre . "</h1> <br> Description : " . $liste->description . "</p><ol>";
             $items = Item::query()->get('*')->where('liste_id', '=', $liste["no"]);
             foreach ($items as $item) {
-                $rs .= '<li><a href="../../item/' . $item->id . '">' . $item->nom . '</a>';
-                $rs .= '<img src="../../web/img/' . $item->img . '" alt="' . $item->nom . '" height="200" width="200"/>';
-                //if pas encore reserve
-                $rs .= '<a href="../../item/' . $item->id . '/reservation">Reserver</a>';
+                $rs .= '<li><a href="../item/' . $item->id . '">' . $item->nom . '</a>';
+                $rs .= '<img src="../web/img/' . $item->img . '" alt="' . $item->nom . '" height="200" width="200"/>';
             }
             $rs .= "</ol></div>";
         }
@@ -147,17 +142,48 @@ class VueParticipant
 
     private function nouvelleListe()
     {
-        $html = '<h1>Creation de liste<h1>
-
-        <form method="POST" action="">
-            <p>Nom Liste</p>
-            <input type="text" name="Nom">
-            <p>Description</p>
-            <input type="test" name="Description">
-            <p>Date de fin de la liste</p>
-            <input type="date" name="Date"><br><br>
-            <input type="submit" name="submit" value="Valider">
-        </form>';
+        $html = '
+        <div align="center">
+        <h1>Creation de liste</h1>
+            <form method="post" action="">
+            <table>
+                <tr>
+                    <td>
+                        <label>Nom de la liste</label>
+                    </td>
+                    <td>
+                        <input type="text" name="Nom">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Description</label>
+                    </td>
+                    <td>
+                        <input type="text" name="Description">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Date de fin de la liste</label>
+                    </td>
+                    <td>
+                        <input type="date" name="Date">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Visibilité</label>
+                    </td>
+                    <td>
+                        <input type="text" name="visible">
+                    </td>
+                </tr>
+            </table>
+                <input type="submit" name="submit" value="Valider">
+            </form>
+        </div>
+        ';
         return $html;
     }
 
@@ -168,17 +194,46 @@ class VueParticipant
             $liste = $value;
         }
         //$_POST['id'] = $liste->no;
-        $html = '<h1>Modification de liste<h1>
-
-        <form method="POST" action="infosG/verification">
-            <p>Nom Liste</p>
-            <input type="text" name="Nom" value="'.$liste->titre.'">
-            <p>Description</p>
-            <input type="test" name="Description" value="'.$liste->description.'">
-            <p>Date de fin de la liste</p>
-            <input type="date" name="Date" value="'.$liste->expiration.'"><br><br>
-            <input type="submit" name="submit" value="Valider">
-        </form>';
+        $html = '<div align="center">
+                <h1>Creation de liste</h1>
+                    <form method="post" action="">
+                    <table>
+                        <tr>
+                            <td>
+                                <label>Nom de la liste</label>
+                            </td>
+                            <td>
+                                <input type="text" name="Nom">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Description</label>
+                            </td>
+                            <td>
+                                <input type="text" name="Description">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Date de fin de la liste</label>
+                            </td>
+                            <td>
+                                <input type="date" name="Date">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Visibilité</label>
+                            </td>
+                            <td>
+                                <input type="text" name="visible">
+                            </td>
+                        </tr>
+                    </table>
+                        <input type="submit" name="submit" value="Valider">
+                    </form>
+                </div>';
         return $html;
     }
 

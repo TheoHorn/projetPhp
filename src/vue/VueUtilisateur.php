@@ -30,15 +30,30 @@ class VueUtilisateur
     private function connexion()
     {
         $rs ='';
-        $rs .='<h1>Connection<h1>
-
-        <form method="post" action="">
-            <p>Nom</p>
-            <input type="text" name="nom" required>
-            <p>Password</p>
-            <input type="password" name="password" required>
-            <input type="submit" name="connection" value="Valider">
-        </form>';
+        $rs .='<div align="center">
+                    <h2>Connection</h2>
+                    <br><br><br>
+                    <form method="post" action="">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label for="identifiant">Identifiant :</label>
+                                </td>
+                                <td>
+                                    <input type="text" placeholder="Votre identifiant" name="nom" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Mot de passe :</label>
+                                </td>
+                                <td>
+                                    <input type="password" placeholder="Votre mot de passe" name="password" required>
+                                </td>
+                            </tr>
+                        </table>
+                        <input type="submit" name="connection" value="Valider">
+                    </form>';
         $rs .= '<a href="./Inscription">S\'inscrire</a>';
 
         return $rs;
@@ -54,7 +69,7 @@ class VueUtilisateur
                         <table>
                             <tr>
                                 <td>
-                                    <label>Identifiant :</label>
+                                    <label for="identifiant">Identifiant :</label>
                                 </td>
                                 <td>
                                     <input type="text" placeholder="Votre identifiant" name="identifiant" required>
