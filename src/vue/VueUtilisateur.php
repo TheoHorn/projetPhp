@@ -4,17 +4,12 @@ namespace wishlist\vue;
 
 use wishlist\controleur\Authentication;
 
-class VueUtilisateur
+class VueUtilisateur extends Vue
 {
-    private $selecteur;
     const INSCRIPTION = 1;
     const CONNEXION = 2;
     const ACCEUIL = 3;
 
-    public function __construct($selec)
-    {
-        $this->selecteur = $selec;
-    }
 
     private function acceuil() {
         $urlitem = "item";

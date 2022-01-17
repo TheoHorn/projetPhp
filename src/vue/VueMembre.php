@@ -4,19 +4,13 @@ namespace wishlist\vue;
 
 use wishlist\model\Item;
 
-class VueMembre
+class VueMembre extends Vue
 {
-    private $tabListeItem;
-    private $selecteur;
+
     const LISTS_VIEW = 1;
     const LIST_VIEW = 2;
     const ACCEUIL = 4;
 
-    public function __construct($li, $selec)
-    {
-        $this->tabListeItem = $li;
-        $this->selecteur = $selec;
-    }
 
     private function acceuil()
     {
@@ -53,7 +47,7 @@ class VueMembre
     private function affichageListe()
     {
         $rs = "";
-        foreach ($this->tabListeItem as $liste) {
+        foreach ($this->tab as $liste) {
             $rs .= "<div><p><h1>" . $liste->titre . "</h1> <br> Description : " . $liste->description . "</p><ol>";
             $items = Item::query()->get('*')->where('liste_id', '=', $liste["no"]);
             foreach ($items as $item) {
@@ -71,7 +65,7 @@ class VueMembre
     private function affichageListes()
     {
         $s = "<div><ol>";
-        foreach ($this->tabListeItem as $val) {
+        foreach ($this->tab as $val) {
             $s .= "<li>" . '<a href="./liste/'.$val->token.'">'.$val->titre.'</a>'. "</li>";
         }
         $s .= "</ol></div>";

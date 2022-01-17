@@ -4,10 +4,9 @@ namespace wishlist\vue;
 
 use wishlist\model\Item;
 
-class VueParticipant
+class VueParticipant extends Vue
 {
-    private $tab;
-    private $selecteur;
+
     const LISTS_VIEW = 1;
     const LIST_VIEW = 2;
     const ACCEUIL = 4;
@@ -23,11 +22,6 @@ class VueParticipant
     const MODIF_ITEM_EFFECTUE = 14;
     const SUPPRESSION_ITEM_LISTE = 15 ;
 
-    public function __construct($li, $selec)
-    {
-        $this->tab = $li;
-        $this->selecteur = $selec;
-    }
 
     private function affichageListes(){
         $s = "<div><ol>";
