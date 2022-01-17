@@ -85,7 +85,7 @@ class VueParticipant extends Vue
                   <p> Le token pour acceder aux informations de la nouvelle liste est le suivant : ".$this->tab[0]."</p>
                   <p> Si vous souhaitez modifier votre liste, utiliser ce token : ".$this->tab[1]."</p>
                   </div>";
-        $html .= '<a href="../">Compris</a>';
+        $html .= '<a href="../../liste">Compris</a>';
         return $html;
     }
 
@@ -139,7 +139,7 @@ class VueParticipant extends Vue
         $html = '
         <div align="center">
         <h1>Creation de liste</h1>
-            <form method="post" action="./ajouter">
+            <form method="post" action="./new/ajouter">
             <table>
                 <tr>
                     <td>
