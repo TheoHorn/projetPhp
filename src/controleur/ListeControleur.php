@@ -12,7 +12,7 @@ use const http\Client\Curl\POSTREDIR_301;
 
 class ListeControleur
 {
-    public function afficherListes(Request $rq, Response $rs, $args):Response{
+    public function afficherListes(Request $rq, Response $rs, array $args):Response{
         if($rq->getParam('tokenV')) {
 
         }
@@ -21,7 +21,7 @@ class ListeControleur
             $v = new VueMembre($liste, VueMembre::LISTS_VIEW);
         } else {
             $liste = Liste::query()->get('*')->where('visible','=','public');
-            $v = new VueParticipant( $liste , VueParticipant::LISTS_VIEW) ;
+            $v = new VueParticipant( /*$liste*/ array() , VueParticipant::LISTS_VIEW) ;
         }
         $rs->getBody()->write($v->render()) ;
         return $rs ;
@@ -42,7 +42,7 @@ class ListeControleur
         return $rs;
     }
 
-    function ajoutListeDb() {
+    function ajoutListeDb(Request $rq, Response $rs, array $args) {
         if(isset($_POST['submit'])) {
             $nom = filter_var($_POST['Nom'],
                 FILTER_SANITIZE_STRING);
@@ -59,6 +59,8 @@ class ListeControleur
             // il faut récupérer le user id quand la connexion sera faite TODO
             Liste::query()->insert(array('user_id'=>0,'titre'=>$nom,'description'=>$desc,'expiration'=>$date,'tokenV'=> $tokenV,'tokenM'=>$tokenM,'visible'=>$visible));
             $v = new VueParticipant(array("0"=>$tokenV,"1"=>$tokenM),VueParticipant::AJOUT_LISTE);
+            $rs->getBody()->write($v->render()) ;
+            return $rs;
         }
     }
 
@@ -93,7 +95,7 @@ class ListeControleur
     public function afficherModifInfosG(Request $rq, Response $rs, array $args)
     {
         $identifiant = $args['tokenM'];
-        $l = Liste::query()->get('*')->where('tokenM', '=', $identifiant);
+        $l = Liste::query()->get('*')->where('tokenM', '=', $identifiant)->first();
         $v = new VueParticipant( $l , VueParticipant::MODIF_INFOSG) ;
         $rs->getBody()->write($v->render()) ;
         return $rs;
@@ -102,7 +104,7 @@ class ListeControleur
     public function affichageAjouterItem(Request $rq, Response $rs, array $args)
     {
         $identifiant = $args['tokenM'];
-        $l = Liste::query()->get('*')->where('tokenM', '=', $identifiant);
+        $l = Liste::query()->get('*')->where('tokenM', '=', $identifiant)->first();
         $v = new VueParticipant( $l , VueParticipant::AJOUT_ITEM) ;
         $rs->getBody()->write($v->render()) ;
         return $rs;

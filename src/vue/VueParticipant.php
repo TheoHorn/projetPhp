@@ -145,7 +145,7 @@ class VueParticipant
         $html = '
         <div align="center">
         <h1>Creation de liste</h1>
-            <form method="post" action="">
+            <form method="post" action="./ajouter">
             <table>
                 <tr>
                     <td>
@@ -190,20 +190,18 @@ class VueParticipant
 
     private function modifierInfosG()
     {
-        foreach($this->tab as $value){
-            $liste = $value;
-        }
+        $liste = $this->tab;
         //$_POST['id'] = $liste->no;
         $html = '<div align="center">
-                <h1>Creation de liste</h1>
-                    <form method="post" action="">
+                <h1>Modification de liste</h1>
+                    <form method="post" action="" >
                     <table>
                         <tr>
                             <td>
                                 <label>Nom de la liste</label>
                             </td>
                             <td>
-                                <input type="text" name="Nom">
+                                <input type="text" name="Nom" value="'.$liste->titre.'">
                             </td>
                         </tr>
                         <tr>
@@ -211,7 +209,7 @@ class VueParticipant
                                 <label>Description</label>
                             </td>
                             <td>
-                                <input type="text" name="Description">
+                                <input type="text" name="Description" value="'.$liste->description.'">
                             </td>
                         </tr>
                         <tr>
@@ -219,7 +217,7 @@ class VueParticipant
                                 <label>Date de fin de la liste</label>
                             </td>
                             <td>
-                                <input type="date" name="Date">
+                                <input type="date" name="Date" value="'.$liste->expiration.'">
                             </td>
                         </tr>
                         <tr>
@@ -227,7 +225,7 @@ class VueParticipant
                                 <label>Visibilité</label>
                             </td>
                             <td>
-                                <input type="text" name="visible">
+                                <input type="text" name="visible" value="'.$liste->visible.'">
                             </td>
                         </tr>
                     </table>
@@ -259,9 +257,7 @@ class VueParticipant
 
     private function affichageModifItem()
     {
-        foreach($this->tab as $value){
-            $item = $value;
-        }
+        $item=$this->tab;
 
         $html = '<h1>Modification d\'un item<h1>
 

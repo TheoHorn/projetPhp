@@ -3,64 +3,89 @@
 use Slim\Http\Request;
 use Slim\Http\Response;
 use wishlist\conf\Database;
-use wishlist\controleur\UserControleur;
+use wishlist\controleur as Control;
 
 require_once __DIR__ . '/src/vendor/autoload.php';
 
-session_start();
-
 Database::connect();
 
-$app= new \Slim\App(["settings"=>[
+$c = new \Slim\Container(["settings"=>[
     "displayErrorDetails" => true]]);
-$container = $app->getContainer();
+$app= new \Slim\App($c);
 
 $app->get('/', function(Request $rq, Response $rs, array $args): Response {
-    return (new wishlist\controleur\UserControleur)->acceuil($rq,$rs,$args);
-})->setName('Home');
+    return (new Control\UserControleur)->acceuil($rq,$rs,$args);
+});
 
 $app->get('/item', function(Request $rq, Response $rs, array $args): Response {
-    return (new wishlist\controleur\ItemControleur)->afficheItems($rq,$rs,$args);
+    return (new Control\ItemControleur)->afficheItems($rq,$rs,$args);
 });
 
 $app->get('/item/{id}', function(Request $rq, Response $rs, array $args): Response {
-    return (new wishlist\controleur\ItemControleur)->afficheItem($rq,$rs,$args);
-});
-
-$app->post('/item/{id}', function(Request $rq, Response $rs, array $args): Response {
-    return (new wishlist\controleur\ItemControleur)->afficheItem($rq,$rs,$args);
+    return (new Control\ItemControleur)->afficheItem($rq,$rs,$args);
 });
 
 $app->get('/liste', function(Request $rq, Response $rs, array $args): Response {
-    return (new \wishlist\controleur\ListeControleur)->afficherListes($rq,$rs,$args);
+    return (new Control\ListeControleur)->afficherListes($rq,$rs,$args);
 });
 
 $app->get('/liste/new', function(Request $rq, Response $rs, array $args): Response {
-    return (new \wishlist\controleur\ListeControleur)->nouvelleListe($rq,$rs,$args);
+    return (new Control\ListeControleur)->nouvelleListe($rq,$rs,$args);
 });
 
-$app->post('/liste/new', function(Request $rq, Response $rs, array $args) use ($app): Response {
-    return (new \wishlist\controleur\ListeControleur)->nouvelleListe($rq,$rs,$args);
+$app->post('/liste/new/ajouter', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ListeControleur)->ajoutListeDb($rq,$rs,$args);
 });
 
-$app->get('/liste/{tokenV}', function(Request $rq, Response $rs, array $args): Response {
-    return (new \wishlist\controleur\ListeControleur)->afficherListe($rq,$rs,$args);
+$app->get('/liste/voir/{tokenV}', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ListeControleur)->afficherListe($rq,$rs,$args);
 });
+
+$app->get('/liste/modifier/{tokenM}', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ListeControleur)->afficherModifListe($rq, $rs, $args);
+});
+
+$app->get('/liste/modifier/{tokenM}/infosG', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ListeControleur)->afficherModifInfosG($rq, $rs, $args);
+});
+
+
+$app->post('/liste/modifier/{tokenM}/infosG/verification', function(Request $rq, Response $rs, array $args): Response {
+     return (new Control\ListeControleur)->modifierListeBdd($rq,$rs,$args);
+});
+
+$app->get('/liste/modifier/{tokenM}/ajoutItem', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ListeControleur)->affichageAjouterItem($rq,$rs,$args);
+});
+
+
+$app->post('/liste/modifier/{tokenM}/ajoutItem/verification', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ListeControleur)->ajouterItemListe($rq,$rs,$args);
+});
+
+$app->get('/liste/modifier/{tokenM}/modifierItem/{id}', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ItemControleur)->affichageModifierItem($rq,$rs,$args);});
+
+$app->post('/liste/modifier/{tokenM}/modifierItem/{id}/verification', function(Request $rq, Response $rs, array $args): Response {
+return (new Control\ItemControleur)->modifierItemListe($rq,$rs,$args);});
+
+$app->get('/liste/modifier/{tokenM}/modifierItem/{id}/suppression', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ItemControleur)->supprimerItemListe($rq,$rs,$args);});
 
 $app->get('/Connexion', function(Request $rq, Response $rs, array $args) use($app) {
-    return (new \wishlist\controleur\UserControleur)->connection($rq,$rs,$args);
+    return (new Control\UserControleur)->connection($rq,$rs,$args);
 })->setName('Connection');
 
 $app->post('/Connexion', function(Request $rq, Response $rs, array $args) use($app) {
-    return (new \wishlist\controleur\UserControleur)->verifConnection($rq,$rs,$args);
+    return (new Control\UserControleur)->verifConnection($rq,$rs,$args);
 });
 
 $app->get('/Inscription', function(Request $rq, Response $rs, array $args) use($app) {
-    return (new \wishlist\controleur\UserControleur)->inscription($rq,$rs,$args);
+    return (new Control\UserControleur)->inscription($rq,$rs,$args);
 })->setName('Inscription');
 
 $app->post('/Inscription', function(Request $rq, Response $rs, array $args )use($app) {
-    return (new \wishlist\controleur\UserControleur)->verifInscription($rq,$rs,$args);
+    return (new Control\UserControleur)->verifInscription($rq,$rs,$args);
 });
 
 

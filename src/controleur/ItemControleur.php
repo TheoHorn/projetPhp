@@ -49,9 +49,6 @@ class ItemControleur
         $identifiant = $args['tokenM'];
         $id = $args['id'];
         $l = Liste::query()->get('*')->where('tokenM', '=', $identifiant)->first();
-        foreach($l as $value){
-            $liste = $value;
-        }
 
 
         $nom = filter_var($_POST["Nom"],
@@ -68,7 +65,7 @@ class ItemControleur
 
         //modif dans la bdd
         Item::query()->where("id",$id)->update(["nom" => $nom, "descr" => $desc, "tarif" => $prix, "url" => $url, "img" => $image]);
-        $v = new VueParticipant($liste,VueParticipant::MODIF_ITEM_EFFECTUE);
+        $v = new VueParticipant($l,VueParticipant::MODIF_ITEM_EFFECTUE);
         $rs->getBody()->write($v->render());
         return $rs;
     }
@@ -78,12 +75,10 @@ class ItemControleur
         $identifiant = $args['tokenM'];
         $id = $args['id'];
         $l = Liste::query()->get('*')->where('tokenM', '=', $identifiant)->first();
-        foreach($l as $value){
-            $liste = $value;
-        }
+
 
         Item::query()->where("id",$id)->delete();
-        $v = new VueParticipant($liste,VueParticipant::SUPPRESSION_ITEM_LISTE);
+        $v = new VueParticipant($l,VueParticipant::SUPPRESSION_ITEM_LISTE);
         $rs->getBody()->write($v->render());
         return $rs;
     }
