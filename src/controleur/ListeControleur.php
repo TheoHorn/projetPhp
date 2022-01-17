@@ -21,7 +21,7 @@ class ListeControleur
             $v = new VueMembre($liste, VueMembre::LISTS_VIEW);
         } else {
             $liste = Liste::query()->get('*')->where('visible','=','public');
-            $v = new VueParticipant( /*$liste*/ array() , VueParticipant::LISTS_VIEW) ;
+            $v = new VueParticipant( $liste , VueParticipant::LISTS_VIEW) ;
         }
         $rs->getBody()->write($v->render()) ;
         return $rs ;
