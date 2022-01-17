@@ -26,7 +26,7 @@ class VueParticipant extends Vue
     private function affichageListes(){
         $s = "<div><ol>";
         foreach ($this->tab as $val) {
-            $s .= "<li>" . '<a href="./liste/'.$val->tokenV.'">'.$val->titre.'</a>'. "</li>";
+            $s .= "<li>" . '<a href="./liste/voir/'.$val->tokenV.'">'.$val->titre.'</a>'. "</li>";
         }
         $s .= "<a href=\"./liste/new\"><input type=\"button\" value=\" Creer une nouvelle liste \"></a>";
         $s .= "</ol></div>";
