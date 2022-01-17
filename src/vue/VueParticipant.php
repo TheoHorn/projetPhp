@@ -41,7 +41,7 @@ class VueParticipant extends Vue
             $items = Item::query()->get('*')->where('liste_id', '=', $liste["no"]);
             foreach ($items as $item) {
                 $rs .= '<li><a href="../../item/' . $item->id . '">' . $item->nom . '</a>';
-                $rs .= '<img src="../web/img/' . $item->img . '" alt="' . $item->nom . '" height="200" width="200"/>';
+                $rs .= '<img src="../../web/img/' . $item->img . '" alt="' . $item->nom . '" height="200" width="200"/>';
             }
             $rs .= "</ol></div>";
         }
