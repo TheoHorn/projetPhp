@@ -13,6 +13,8 @@ $c = new \Slim\Container(["settings"=>[
     "displayErrorDetails" => true]]);
 $app= new \Slim\App($c);
 
+session_start();
+
 $app->get('/', function(Request $rq, Response $rs, array $args): Response {
     return (new Control\UserControleur)->acceuil($rq,$rs,$args);
 });

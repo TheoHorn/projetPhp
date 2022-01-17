@@ -324,6 +324,11 @@ class VueParticipant extends Vue
         }
         $html = <<<END
                 <!DOCTYPE html> <html>
+                <head>
+                    <title>My WishList</title>
+                    <meta charset = "utf-8">
+                    <link rel="stylesheet" href="./web/css/rendu.css"
+                </head>
                 <body> 
                 <div class="content">
                  $content

@@ -112,8 +112,9 @@ class VueUtilisateur extends Vue
         $html = <<<END
                 <!DOCTYPE html> <html>
                 <head>
-                <title>WishList</title>
-                <link href="" rel="stylesheet">
+                    <title>My WishList</title>
+                    <meta charset = "utf-8">
+                    <link rel="stylesheet" href="./web/css/rendu.css"
                 </head>
                 <body> 
                 <div class="content">

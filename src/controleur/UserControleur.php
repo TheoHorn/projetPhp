@@ -17,24 +17,26 @@ class UserControleur
     function acceuil(Request $rq, Response $rs, array $args)
     {
         var_dump($_SESSION);
+
         $v = null;
         if(isset($_SESSION['username'])) {
-            $v = new VueMembre(null, VueMembre::ACCEUIL);
+            $v = new VueMembre(array(), VueMembre::ACCEUIL);
         } else {
-            $v = new VueUtilisateur(VueUtilisateur::ACCEUIL);
+            $v = new VueUtilisateur(array(), VueUtilisateur::ACCEUIL);
         }
         $rs->getBody()->write($v->render());
         return $rs;
     }
 
     public function connection(Request $rq, Response $rs, array $args) {
-        $v = new VueUtilisateur(VueUtilisateur::CONNEXION);
+        $v = new VueUtilisateur(array(), VueUtilisateur::CONNEXION);
         $rs->getBody()->write($v->render());
         return $rs;
     }
 
     public function verifConnection(Request $rq, Response $rs, array $args) {
         if(isset($_POST['connexion'])) {
+            var_dump($_POST);
             Authentication::authenticate($_POST['nom'], $_POST['password']);
         }
         return $rs->withHeader('Location','./');
