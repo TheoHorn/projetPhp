@@ -20,7 +20,9 @@ class VueParticipant extends Vue
     const AJOUT_ITEM_EFFECTUE = 12;
     const MODIF_ITEM = 13;
     const MODIF_ITEM_EFFECTUE = 14;
-    const SUPPRESSION_ITEM_LISTE = 15 ;
+    const SUPPRESSION_ITEM_LISTE = 15;
+    const ITEM_RESERV = 51;
+    const SAVE_RESERV = 52;
 
 
     private function affichageListes(){
@@ -63,19 +65,31 @@ class VueParticipant extends Vue
 
     private function affichageItem()
     {
-
         $rs = '<div>'.$this->tab->nom . '<br>' . $this->tab->descr . '<br>'. $this->tab->tarif .' €</div>';
-        $rs .= '<img src="../web/img/' . $this->tab->img . '" alt="' . $this->tab->nom . '" height="200" width="200"/>';
+        $rs .= '<img src="../web/img/' . $this->tab->img . '" alt="' . $this->tab->nom . '" height="200" width="200"/><br>';
         if($this->tab->nomParticipant == null) {
-            $rs.='<h1>Réserver<h1>
-            <form method="post" action="">
-                <p>Nom</p>
-                <input type="text" name="nom" required>
-                <input type="submit" name="reservation" value="Valider">
-            </form>';
+            $rs .='<a href="./'.$this->tab->id.'/reservation"><input type="button" value=" Réserver "></a>';
         } else {
-            $rs.='<p>Réserver par : '.$this->tab->nomParticipant .'</p>';
+            $rs.='<p>Réservé par : '.$this->tab->nomParticipant .'</p>';
         }
+        $rs .='<br><a href="./commentaire"><input type="button" value=" Ajouter un commentaire "></a>';
+        return $rs;
+    }
+
+    private function AffReseverItem(){
+        $html = '<h1>Réserver<h1>
+        <form method="POST" action="reservation/save">
+            <ul><li>Nom
+            <input type="text" name="NomP">
+            <input type="submit" name="submit" value="Valider"></li></ul>
+        </form>';
+        return $html;
+    }
+
+    private function AffSavedResever()
+    {
+        $rs = "<h1> La Reservation à bien été effectuée </h1>";
+        $rs .= '<br><a href="../../../"><input type="button" value=" Acceuil "></a>';
         return $rs;
     }
 
@@ -287,6 +301,12 @@ class VueParticipant extends Vue
                 break;
             case self::ITEM_VIEW :
                 $content = $this->affichageItem();
+                break;
+            case self::ITEM_RESERV :
+                $content = $this->AffReseverItem();
+                break;
+            case self::SAVE_RESERV :
+                $content = $this->AffSavedResever();
                 break;
             case self::AJOUT_LISTE :
                 $content = $this->ajoutListe();

@@ -24,15 +24,44 @@ class ItemControleur
     function afficheItem(Request $rq, Response $rs, array $args): Response {
         $id = $args['id'];
         $item = Item::query()->get('*')->where('id', '=', $id)->first();
-
-        if(isset($_POST['reservation'])) {
-            $nom = filter_var($_POST['nom'],FILTER_SANITIZE_STRING);
-            Item::query()->where("id", $id)->update(["nomParticipant" => $nom,]);
-        }
-
-        $v = new VueParticipant( $item , VueParticipant::ITEM_VIEW);
+        //if variable session participant :
+        $v = new VueParticipant( $item , VueParticipant::ITEM_VIEW) ;
+        //else $v = new VueMembre
         $rs->getBody()->write($v->render()) ;
         return $rs ;
+    }
+
+    public function reserveItem(Request $rq, Response $rs, array $args): Response
+    {
+        $id = $args['id'];
+        $item = \wishlist\model\Item::query()->get('*')->where('id', '=', $id);
+        //can only be participant :
+        $v = new VueParticipant( $item , VueParticipant::ITEM_RESERV) ;
+        $rs->getBody()->write($v->render()) ;
+        return $rs ;
+    }
+
+    public function SaveReservationBdd(Request $rq, Response $rs, array $args)
+    {
+        $id = $args['id'];
+        $item = Item::query()->get('*')->where('id', '=', $id)->first();
+        if (!preg_match("/[a-zA-Z]+[ ]?[a-zA-Z]*/",$_POST["NomP"])){
+            $rs->getBody()->write("Nom Invalide");
+            return $rs;
+        }
+        if(!empty($item->NomParticipant)){
+            $rs->getBody()->write("Item déjà reservé par ".$item->nomParticipant);
+        } else {
+            $nomP = filter_var($_POST["NomP"],
+                FILTER_SANITIZE_STRING);
+            Item::query()->where('id','=',$id)->update([
+                'nomParticipant' => $nomP
+            ]);
+            $v = new VueParticipant($item,VueParticipant::SAVE_RESERV);
+            $rs->getBody()->write($v->render());
+        }
+
+        return $rs;
     }
 
     public function affichageModifierItem(Request $rq, Response $rs, array $args): Response

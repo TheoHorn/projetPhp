@@ -27,6 +27,14 @@ $app->get('/item/{id}', function(Request $rq, Response $rs, array $args): Respon
     return (new Control\ItemControleur)->afficheItem($rq,$rs,$args);
 });
 
+$app->get('/item/{id}/reservation', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ItemControleur)->reserveItem($rq,$rs,$args);
+});
+
+$app->post('/item/{id}/reservation/save', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ItemControleur)->SaveReservationBdd($rq,$rs,$args);
+});
+
 $app->get('/liste', function(Request $rq, Response $rs, array $args): Response {
     return (new Control\ListeControleur)->afficherListes($rq,$rs,$args);
 });
