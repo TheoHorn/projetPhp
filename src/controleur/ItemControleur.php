@@ -4,6 +4,7 @@ namespace wishlist\controleur;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
+use wishlist\model\CommentaireItem;
 use wishlist\model\Item;
 use wishlist\model\Liste;
 use wishlist\vue\VueParticipant;
@@ -109,6 +110,34 @@ class ItemControleur
         Item::query()->where("id",$id)->delete();
         $v = new VueParticipant($l,VueParticipant::SUPPRESSION_ITEM_LISTE);
         $rs->getBody()->write($v->render());
+        return $rs;
+    }
+
+    public function laisserCommentaireItem(Request $rq, Response $rs, array $args)
+    {
+        $id = $args['id'];
+        $item = \wishlist\model\Item::query()->get('*')->where('id', '=', $id)->first();
+        //can only be participant :
+        $v = new VueParticipant( $item , VueParticipant::ITEM_COMMENT) ;
+        $rs->getBody()->write($v->render()) ;
+        return $rs ;
+    }
+
+    public function saveCommentItemBdd(Request $rq, Response $rs, array $args)
+    {
+        $id = $args['id'];
+        $item = Item::query()->get('*')->where('id', '=', $id)->first();
+        $com = filter_var($_POST["com"],
+            FILTER_SANITIZE_STRING);
+        if (!preg_match("/[a-zA-Z]+/",$com)){
+            $rs->getBody()->write("Commentaire vide !");
+            return $rs;
+        } else {
+            CommentaireItem::query()->insert(["contenu"=>$com,"Item_id"=>$id]);
+            $v = new VueParticipant($item,VueParticipant::ITEM_COMMENT_DONE);
+            $rs->getBody()->write($v->render());
+        }
+
         return $rs;
     }
 }

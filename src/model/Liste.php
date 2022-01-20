@@ -10,7 +10,13 @@ class Liste extends Model
     protected $primaryKey = 'no';
     public $timestamps = false;
 
-    public function items() {
+    public function items(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany('wishlist\model\Item', 'liste_id');
+    }
+
+    public function getComment(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(CommentaireListe::class);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace wishlist\vue;
 
+use wishlist\model\CommentaireItem;
 use wishlist\model\Item;
 
 class VueParticipant extends Vue
@@ -23,9 +24,12 @@ class VueParticipant extends Vue
     const SUPPRESSION_ITEM_LISTE = 15;
     const ITEM_RESERV = 51;
     const SAVE_RESERV = 52;
+    const ITEM_COMMENT = 53;
+    const ITEM_COMMENT_DONE = 54;
 
 
-    private function affichageListes(){
+    private function affichageListes(): string
+    {
         $s = "<div><ol>";
         foreach ($this->tab as $val) {
             $s .= "<li>" . '<a href="./liste/voir/'.$val->tokenV.'">'.$val->titre.'</a>'. "</li>";
@@ -35,7 +39,7 @@ class VueParticipant extends Vue
         return $s;
     }
 
-    private function affichageListe()
+    private function affichageListe(): string
     {
         $rs = "";
         foreach ($this->tab as $liste) {
@@ -50,7 +54,8 @@ class VueParticipant extends Vue
         return $rs;
     }
 
-    private function acceuil() {
+    private function acceuil(): string
+    {
         $urlitem = "item";
         $urllist = "liste";
 
@@ -63,7 +68,7 @@ class VueParticipant extends Vue
         return $rs;
     }
 
-    private function affichageItem()
+    private function affichageItem(): string
     {
         $rs = '<div>'.$this->tab->nom . '<br>' . $this->tab->descr . '<br>'. $this->tab->tarif .' €</div>';
         $rs .= '<img src="../web/img/' . $this->tab->img . '" alt="' . $this->tab->nom . '" height="200" width="200"/><br>';
@@ -72,11 +77,31 @@ class VueParticipant extends Vue
         } else {
             $rs.='<p>Réservé par : '.$this->tab->nomParticipant .'</p>';
         }
-        $rs .='<br><a href="./commentaire"><input type="button" value=" Ajouter un commentaire "></a>';
+        $rs .= '<br><p>Zone Commentaires :</p>';
+        foreach ($this->tab->getComment as $c){
+            $rs.='<br><p>'.$c->contenu.'</p>';
+        }
+        $rs .='<br><a href="./'.$this->tab->id.'/commentaire"><input type="button" value=" Ajouter un commentaire "></a>';
         return $rs;
     }
 
-    private function AffReseverItem(){
+    private function laisserCommentItemVue(): string
+    {
+        return '<br><form method="POST" action="./commentaire/save">
+            <p>Laisser un commentaire anonyme</p>
+            <br><input type="textarea" name="com">
+            <br><input type="submit" name="submit" value="Valider">
+        </form>';
+    }
+
+    private function commentItemDone(): string
+    {
+        return '<p>Commentaire posté</p><br>
+                <a href="../../'.$this->tab->id.'"><input type="button" value=" Ok "></a>';
+    }
+
+    private function AffReseverItem(): string
+    {
         $html = '<h1>Réserver<h1>
         <form method="POST" action="reservation/save">
             <ul><li>Nom
@@ -86,14 +111,15 @@ class VueParticipant extends Vue
         return $html;
     }
 
-    private function AffSavedResever()
+    private function AffSavedResever(): string
     {
         $rs = "<h1> La Reservation à bien été effectuée </h1>";
         $rs .= '<br><a href="../../../"><input type="button" value=" Acceuil "></a>';
         return $rs;
     }
 
-    private function ajoutListe(){
+    private function ajoutListe(): string
+    {
         $html = "<h1> La liste a été crée vous pouvez y ajouter des items</h1>";
         $html .= "<div>
                   <p> Le token pour acceder aux informations de la nouvelle liste est le suivant : ".$this->tab[0]."</p>
@@ -103,35 +129,35 @@ class VueParticipant extends Vue
         return $html;
     }
 
-    private function affichageModifEffectue()
+    private function affichageModifEffectue(): string
     {
         $html = "<h1> La liste a été modifié avec succès</h1>";
         $html .= '<a href="./../../'.$this->tab->tokenM.'"><input type="button" value=" Retour "></a>';
         return $html;
     }
 
-    private function ajoutItemEffectue()
+    private function ajoutItemEffectue(): string
     {
         $html = "<h1> L'item a été ajouté avec succès</h1>";
         $html .= '<a href="./../../'.$this->tab->tokenM.'"><input type="button" value=" Retour "></a>';
         return $html;
     }
 
-    private function affichageModifItemEffectue()
+    private function affichageModifItemEffectue(): string
     {
         $html = "<h1> L'item a été modifié avec succès</h1>";
         $html .= '<a href="./../../../'.$this->tab->tokenM.'"><input type="button" value=" Retour "></a>';
         return $html;
     }
 
-    private function affichageSuppressionItemEffectue()
+    private function affichageSuppressionItemEffectue(): string
     {
         $html = "<h1> L'item a été supprimé avec succès</h1>";
         $html .= '<a href="./../../../'.$this->tab->tokenM.'"><input type="button" value=" Retour "></a>';
         return $html;
     }
 
-    private function modifierListe()
+    private function modifierListe(): string
     {
         $rs = "";
         foreach ($this->tab as $liste) {
@@ -148,7 +174,7 @@ class VueParticipant extends Vue
         return $rs;
     }
 
-    private function nouvelleListe()
+    private function nouvelleListe(): string
     {
         $html = '
         <div align="center">
@@ -196,7 +222,7 @@ class VueParticipant extends Vue
     }
 
 
-    private function modifierInfosG()
+    private function modifierInfosG(): string
     {
         $liste = $this->tab;
         //$_POST['id'] = $liste->no;
@@ -243,7 +269,7 @@ class VueParticipant extends Vue
         return $html;
     }
 
-    private function affichageAjoutItem()
+    private function affichageAjoutItem(): string
     {
         $html = '<h1>Ajout d\'un item<h1>
 
@@ -263,7 +289,7 @@ class VueParticipant extends Vue
         return $html;
     }
 
-    private function affichageModifItem()
+    private function affichageModifItem(): string
     {
         $item=$this->tab;
 
@@ -287,7 +313,7 @@ class VueParticipant extends Vue
     }
 
 
-    public function render()
+    public function render(): string
     {
         switch ($this->selecteur) {
             case self::LISTS_VIEW :
@@ -337,6 +363,12 @@ class VueParticipant extends Vue
                 break;
             case self::SUPPRESSION_ITEM_LISTE :
                 $content = $this->affichageSuppressionItemEffectue();
+                break;
+            case self::ITEM_COMMENT :
+                $content = $this->laisserCommentItemVue();
+                break;
+            case self::ITEM_COMMENT_DONE :
+                $content = $this->commentItemDone();
                 break;
             default :
                 $content = "<p>selecteur de la vue inadéquat</p>";

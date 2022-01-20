@@ -27,6 +27,14 @@ $app->get('/item/{id}', function(Request $rq, Response $rs, array $args): Respon
     return (new Control\ItemControleur)->afficheItem($rq,$rs,$args);
 });
 
+$app->get('/item/{id}/commentaire', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ItemControleur)->laisserCommentaireItem($rq,$rs,$args);
+});
+
+$app->post('/item/{id}/commentaire/save', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ItemControleur)->saveCommentItemBdd($rq,$rs,$args);
+});
+
 $app->get('/item/{id}/reservation', function(Request $rq, Response $rs, array $args): Response {
     return (new Control\ItemControleur)->reserveItem($rq,$rs,$args);
 });

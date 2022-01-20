@@ -12,7 +12,13 @@ class Item extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    public function liste() {
+    public function liste(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo('wishlist\model\Liste', 'liste_id');
+    }
+
+    public function getComment(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('wishlist\model\CommentaireItem',"item_id");
     }
 }
