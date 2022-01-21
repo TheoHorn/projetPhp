@@ -5,6 +5,8 @@ use Slim\Http\Response;
 use wishlist\conf\Database;
 use wishlist\controleur as Control;
 
+session_start();
+
 require_once __DIR__ . '/src/vendor/autoload.php';
 
 Database::connect();
@@ -12,8 +14,6 @@ Database::connect();
 $c = new \Slim\Container(["settings"=>[
     "displayErrorDetails" => true]]);
 $app= new \Slim\App($c);
-
-session_start();
 
 $app->get('/', function(Request $rq, Response $rs, array $args): Response {
     return (new Control\UserControleur)->acceuil($rq,$rs,$args);
@@ -55,7 +55,7 @@ $app->post('/liste/new/ajouter', function(Request $rq, Response $rs, array $args
     return (new Control\ListeControleur)->ajoutListeDb($rq,$rs,$args);
 });
 
-$app->get('/liste/voir/{tokenV}', function(Request $rq, Response $rs, array $args): Response {
+$app->get('/liste/{tokenV}', function(Request $rq, Response $rs, array $args): Response {
     return (new Control\ListeControleur)->afficherListe($rq,$rs,$args);
 });
 

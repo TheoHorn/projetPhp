@@ -18,25 +18,6 @@ class Authentication
         Utilisateur::query()->insert(array('username'=>$name,'password'=>$hash));
     }
 
-    public static function authenticate($userid,$password) {
-        // vérif injection sql
-        $passw = filter_var($password, FILTER_SANITIZE_STRING);
-        $name = filter_var($userid, FILTER_SANITIZE_STRING);
-        $pass = Utilisateur::query()->get('password')->where('username','=',$name);
-        if(password_verify($passw, $pass)) {
-            self::loadProfile($userid);
-        }
-    }
-
-    private static function loadProfile($userid) {
-        $user = Utilisateur::query()->get(array('id','id_role'))->where('username','=',$userid);
-        $auth = Role::query()->get('auth_level')->where('id_role','=',$user['id_role']);
-        $_SESSION['username'] = $userid;
-        $_SESSION['userid'] = $user['id'];
-        $_SESSION['role'] = $user['id_role'];
-        $_SESSION['auth_level'] = $auth;
-    }
-
     /**
      * @throws AuthException
      */

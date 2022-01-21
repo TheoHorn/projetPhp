@@ -43,13 +43,14 @@ class VueUtilisateur extends Vue
                                     <label>Mot de passe :</label>
                                 </td>
                                 <td>
-                                    <input type="password" placeholder="Votre mot de passe" name="password" required>
+                                    <input type="password" placeholder="Votre mot de passe" name="password" pattern=".[a-zA-z&0-9_]{8,12}" required>
                                 </td>
                             </tr>
                         </table>
                         <input type="submit" name="connection" value="Valider">
                     </form>';
         $rs .= '<a href="./Inscription">S\'inscrire</a>';
+        $rs .= '<p>'.var_dump($this->tab).'</p>';
 
         return $rs;
     }
@@ -75,7 +76,7 @@ class VueUtilisateur extends Vue
                                     <label>Mot de passe :</label>
                                 </td>
                                 <td>
-                                    <input type="password" placeholder="Votre mot de passe" name="password" required>
+                                    <input type="password" placeholder="Votre mot de passe" name="password" pattern=".[a-zA-z&0-9_]{8,20}" required>
                                 </td>
                             </tr>
                             <tr>
@@ -83,7 +84,7 @@ class VueUtilisateur extends Vue
                                     <label>Confirmer votre mot de passe :</label>
                                 </td>
                                 <td>
-                                    <input type="password" placeholder="Votre mot de passe" name="reppassword" required>
+                                    <input type="password" placeholder="Votre mot de passe" name="reppassword" pattern=".[a-zA-z&0-9_]{8,20}" required>
                                 </td>
                             </tr>
                         </table>
