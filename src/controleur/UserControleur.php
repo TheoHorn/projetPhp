@@ -17,8 +17,6 @@ class UserControleur
 
     function acceuil(Request $rq, Response $rs, array $args)
     {
-        var_dump($_SESSION);
-
         $v = null;
         if(isset($_SESSION['username'])) {
             $v = new VueMembre(array(), VueMembre::ACCEUIL);
@@ -41,7 +39,7 @@ class UserControleur
             $name = filter_var($_POST['nom'], FILTER_SANITIZE_STRING);
             $user = Utilisateur::query()->get('*')->where('username','=',$name)->first();
             if(password_verify($passw, $user->password)) {
-                self::loadProfile($_POST['identifiant']);
+                self::loadProfile($_POST['nom']);
                 return $rs->withHeader('Location','./');
             }
         }
@@ -75,12 +73,9 @@ class UserControleur
         }
         $user = Utilisateur::query()->get('*')->where('username','=',$username)->first();
         $auth = Role::query()->get('*')->where('id_role','=',$user['id_role'])->first();
-        $userid = $user->id;
-        $role = $user->id_role;
-        $authlevel = $auth->auth_level;
         $_SESSION['username'] = $username;
-        $_SESSION['userid'] = 1;
-        $_SESSION['role'] = 2;
-        $_SESSION['auth_level'] = 3;
+        $_SESSION['userid'] = $user->id;
+        $_SESSION['role'] = $user->id_role;
+        $_SESSION['auth_level'] = $auth->auth_level;
     }
 }

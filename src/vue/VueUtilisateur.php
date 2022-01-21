@@ -50,7 +50,6 @@ class VueUtilisateur extends Vue
                         <input type="submit" name="connection" value="Valider">
                     </form>';
         $rs .= '<a href="./Inscription">S\'inscrire</a>';
-        $rs .= '<p>'.var_dump($this->tab).'</p>';
 
         return $rs;
     }

@@ -14,7 +14,7 @@ class VueMembre extends Vue
 
     private function acceuil()
     {
-        $rs = 'Bonjour, vous etes bien connecter';
+        $rs = 'Bonjour '.$_SESSION['username'] .', vous etes bien connecter';
         return $rs;
     }
 
