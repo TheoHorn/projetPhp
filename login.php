@@ -1,4 +1,4 @@
-<h1>Connection<h1>
+h1>Connection<h1>
 
         <form method="post" action="">
             <p>Nom</p>
