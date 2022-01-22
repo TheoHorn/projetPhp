@@ -35,6 +35,23 @@ class VueMembre extends Vue
                         <br><input type="submit" name="submit" value="Valider">
                     </form>
                 </div>';
+        $rs .= '<div>
+            <h2>Modification d\'une liste</h2>
+                    <form method="post" action="">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label for="identifiant">Veuillez entre le Token de Modification de la liste :</label>
+                                </td>
+                                <td>
+                                    <input type="text" placeholder="Token de Modification" name="tokenM" required>
+                                </td>
+                            </tr>
+                        </table>
+                        <br><input type="submit" name="modif" value="Valider">
+                    </form>
+        </div>';
+        $rs.='<br><a href="./liste/new">Créer une nouvelle liste</a><br><br>';
         $rs.= '<a href="./logout">Déconnexion</a>';
         return $rs;
     }
@@ -88,7 +105,7 @@ class VueMembre extends Vue
                                 </td>
                             </tr>
                         </table>
-                        <br><input type="submit" name="submit" value="Valider">
+                        <br><input type="submit" name="ajout" value="Valider">
                     </form>
                 </div>';
         return $s;

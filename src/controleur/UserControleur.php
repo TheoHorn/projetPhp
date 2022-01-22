@@ -94,8 +94,10 @@ class UserControleur
         $creat = array();
         foreach ($listes as $values){
             $ut = Utilisateur::query()->get('*')->where('id','=', $values->user_id)->first();
-            if (!in_array($ut->username,$creat)){
-                $creat[] = $ut->username;
+            if($ut!=null) {
+                if (!in_array($ut->username,$creat)){
+                    $creat[] = $ut->username;
+                }
             }
         }
         $v = new VueParticipant($creat,VueParticipant::CREATEURS_VIEW);

@@ -77,7 +77,7 @@ class ListeControleur
     public function afficherModifListe(Request $rq, Response $rs, array $args)
     {
         $identifiant = $args['tokenM'];
-        $liste = Liste::query()->get('*')->where('tokenM', '=', $identifiant);
+        $liste = Liste::query()->get('*')->where('tokenM', '=', $identifiant)->first();
         $v = new VueParticipant( $liste , VueParticipant::MODIF_VIEW) ;
         $rs->getBody()->write($v->render()) ;
         return $rs ;
@@ -152,7 +152,7 @@ class ListeControleur
     public function redirectionListe(Request $rq, Response $rs, array $args)
     {
         $v = null;
-        if(isset($_POST['submit'])) {
+        if(isset($_POST['ajout'])) {
             $liste = Liste::query()->get('*')->where('tokenV','=',$_POST['token'])->first();
             if($liste->tokenV=='prive') {
                 if(isset($_SESSION['username'])&&$_SESSION['userid']==$liste->user_id) {
@@ -162,6 +162,12 @@ class ListeControleur
                 }
             } else {
                 $v = new VueParticipant($liste, VueParticipant::LIST_VIEW);
+            }
+        }
+        if(isset($_POST['modif'])) {
+            $liste = Liste::query()->get('*')->where('tokenM','=',$_POST['tokenM'])->first();
+            if($_SESSION['userid']==$liste->user_id) {
+                return $rs->withHeader('Location','./liste/modifier/'.$liste->tokenM);
             }
         }
         return $rs->write($v->render());

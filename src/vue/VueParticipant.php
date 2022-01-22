@@ -178,17 +178,15 @@ class VueParticipant extends Vue
     private function modifierListe(): string
     {
         $rs = "";
-        foreach ($this->tab as $liste) {
-            $rs .= "<div><p><h1>" . $liste->titre . "</h1> <br> Description : " . $liste->description . "</p>";
-            $items = Item::query()->get('*')->where('liste_id', '=', $liste["no"]);
-            $rs.= "<p>Les items présents dans la liste :</p><ol>";
-            foreach ($items as $item) {
-                $rs .= '<li><a href="../../item/' . $item->id . '">' . $item->nom . '</a><a href="./'.$liste->tokenM.'/modifierItem/'.$item->id.'"><input type="button" value=" Modifier cet item "></a>';
-            }
-            $rs .= "</ol></div>";
-            $rs .='<a href="./'.$liste->tokenM.'/infosG"><input type="button" value=" Modifier les informations générales "></a>';
-            $rs .='<a href="./'.$liste->tokenM.'/ajoutItem"><input type="button" value=" Ajouter un item "></a>';
+        $rs .= "<div><p><h1>" . $this->tab->titre . "</h1> <br> Description : " . $this->tab->description . "</p>";
+        $items = Item::query()->get('*')->where('liste_id', '=', $this->tab["no"]);
+        $rs.= "<p>Les items présents dans la liste :</p><ol>";
+        foreach ($items as $item) {
+            $rs .= '<li><a href="../../item/' . $item->id . '">' . $item->nom . '</a><a href="./'.$this->tab->tokenM.'/modifierItem/'.$item->id.'"><input type="button" value=" Modifier cet item "></a>';
         }
+        $rs .= "</ol></div>";
+        $rs .='<a href="./'.$this->tab->tokenM.'/infosG"><input type="button" value=" Modifier les informations générales "></a>';
+        $rs .='<a href="./'.$this->tab->tokenM.'/ajoutItem"><input type="button" value=" Ajouter un item "></a>';
         return $rs;
     }
 
