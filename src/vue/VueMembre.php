@@ -14,12 +14,10 @@ class VueMembre extends Vue
 
     private function acceuil()
     {
-        $urlitem = "item";
         $urllist = "liste";
         $rs = "<div class='titre'><h1>My WishList </h1></div>";
         $rs .= '<div><p>Bonjour '.$_SESSION['username'].', vous etes bien connecter</p></div>';
-        $rs .= "<p><a href='$urlitem'>Items</a></p>";
-        $rs .= "<p><a href='$urllist'>Listes</a></p>";
+        $rs .= "<p><a href='$urllist'>Listes publiques</a></p>";
         $rs .= "<p><a href='mesListes'>Mes Listes</a></p>";
         $rs .= '<div>
                     <h2>Acceder à une liste</h2>
@@ -37,6 +35,7 @@ class VueMembre extends Vue
                         <br><input type="submit" name="submit" value="Valider">
                     </form>
                 </div>';
+        $rs.= '<a href="./logout">Déconnexion</a>';
         return $rs;
     }
 

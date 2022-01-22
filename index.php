@@ -35,7 +35,7 @@ $app->get('/item/{id}/commentaire', function(Request $rq, Response $rs, array $a
     return (new Control\ItemControleur)->laisserCommentaireItem($rq,$rs,$args);
 });
 
-$app->post('/item/{id}/commentaire/save', function(Request $rq, Response $rs, array $args): Response {
+$app->post('/item/{id}/commentaire', function(Request $rq, Response $rs, array $args): Response {
     return (new Control\ItemControleur)->saveCommentItemBdd($rq,$rs,$args);
 });
 
@@ -43,7 +43,7 @@ $app->get('/item/{id}/reservation', function(Request $rq, Response $rs, array $a
     return (new Control\ItemControleur)->reserveItem($rq,$rs,$args);
 });
 
-$app->post('/item/{id}/reservation/save', function(Request $rq, Response $rs, array $args): Response {
+$app->post('/item/{id}/reservation', function(Request $rq, Response $rs, array $args): Response {
     return (new Control\ItemControleur)->SaveReservationBdd($rq,$rs,$args);
 });
 
@@ -117,6 +117,10 @@ $app->get('/mesListes', function(Request $rq, Response $rs, array $args): Respon
 $app->post('/mesListes', function(Request $rq, Response $rs, array $args): Response {
     return (new Control\ListeControleur)->ajouterListeUser($rq,$rs,$args);
 })->setName('mesListes');
+
+$app->get('/logout', function (Request $rq, Response $rs, array $args): Response {
+    return (new Control\UserControleur)->logout($rq,$rs,$args);
+});
 
 try {
     $app->run();

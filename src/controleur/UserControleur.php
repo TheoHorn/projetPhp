@@ -78,4 +78,12 @@ class UserControleur
         $_SESSION['role'] = $user->id_role;
         $_SESSION['auth_level'] = $auth->auth_level;
     }
+
+    public function logout(Request $rq, Response $rs, array $args) {
+        if(isset($_SESSION['username'])) {
+            session_destroy();
+            session_start();
+        }
+        return $rs->withHeader('Location', './');
+    }
 }
