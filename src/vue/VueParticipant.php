@@ -26,6 +26,7 @@ class VueParticipant extends Vue
     const SAVE_RESERV = 52;
     const ITEM_COMMENT = 53;
     const ITEM_COMMENT_DONE = 54;
+    const CREATEURS_VIEW = 60;
 
 
     private function affichageListes(): string
@@ -55,12 +56,15 @@ class VueParticipant extends Vue
 
     private function acceuil(): string
     {
-        $urlitem = "item";
+        $urlcreat = "createurs";
         $urllist = "liste";
 
         $rs = "<div class='titre'><h1>My WishList </h1></div>";
 
         $rs .= "<p><a href='$urllist'>Listes publiques</a></p>";
+
+        $rs .= "<p><a href='$urlcreat'>Créateurs</a></p>";
+
         $rs .='<a href="./Connexion"><input type="button" value="Se Connecter"></a>';
         $rs .='<a href="./Inscription"><input type="button" value="S\'inscrire"></a>';
         $rs .= '<div>
@@ -326,6 +330,14 @@ class VueParticipant extends Vue
         return $html;
     }
 
+    private function afficherCreateurs()
+    {
+        $rs = "";
+        foreach ($this->tab as $creat) {
+            $rs .= '<li>' . $creat. '</a>';
+        }
+        return $rs;
+    }
 
     public function render(): string
     {
@@ -384,6 +396,9 @@ class VueParticipant extends Vue
             case self::ITEM_COMMENT_DONE :
                 $content = $this->commentItemDone();
                 break;
+            case self::CREATEURS_VIEW :
+                $content = $this->afficherCreateurs();
+                break;
             default :
                 $content = "<p>selecteur de la vue inadéquat</p>";
                 break;
@@ -404,6 +419,4 @@ class VueParticipant extends Vue
         return $html;
 
     }
-
-
 }

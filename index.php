@@ -122,6 +122,10 @@ $app->get('/logout', function (Request $rq, Response $rs, array $args): Response
     return (new Control\UserControleur)->logout($rq,$rs,$args);
 });
 
+$app->get('/createurs', function (Request $rq, Response $rs, array $args): Response {
+    return (new Control\UserControleur)->afficherCreateurs($rq,$rs,$args);
+});
+
 try {
     $app->run();
 } catch (Throwable $e) {

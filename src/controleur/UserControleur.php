@@ -5,6 +5,7 @@ namespace wishlist\controleur;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
+use wishlist\model\Liste;
 use wishlist\model\Role;
 use wishlist\model\Utilisateur;
 use wishlist\vue\VueMembre;
@@ -85,5 +86,20 @@ class UserControleur
             session_start();
         }
         return $rs->withHeader('Location', './');
+    }
+
+    public function afficherCreateurs(Request $rq, Response $rs, array $args)
+    {
+        $listes = Liste::query()->get('*')->where('visible', '=','public');
+        $creat = array();
+        foreach ($listes as $values){
+            $ut = Utilisateur::query()->get('*')->where('id','=', $values->user_id)->first();
+            if (!in_array($ut->username,$creat)){
+                $creat[] = $ut->username;
+            }
+        }
+        $v = new VueParticipant($creat,VueParticipant::CREATEURS_VIEW);
+        $rs->getBody()->write($v->render());
+        return $rs;
     }
 }
