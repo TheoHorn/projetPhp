@@ -64,7 +64,22 @@ class VueParticipant extends Vue
         $rs .= "<p><a href='$urllist'>Listes</a></p>";
         $rs .='<a href="./Connexion"><input type="button" value="Se Connecter"></a>';
         $rs .='<a href="./Inscription"><input type="button" value="S\'inscrire"></a>';
-
+        $rs .= '<div>
+                    <h2>Acceder à une liste</h2>
+                    <form method="post" action="">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label for="identifiant">Veuillez entre le token pour voir la liste :</label>
+                                </td>
+                                <td>
+                                    <input type="text" placeholder="Token de Vision" name="token" required>
+                                </td>
+                            </tr>
+                        </table>
+                        <br><input type="submit" name="submit" value="Valider">
+                    </form>
+                </div>';
         return $rs;
     }
 
