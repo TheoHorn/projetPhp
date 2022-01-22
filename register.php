@@ -1,4 +1,4 @@
-<div align="center">
+div align="center">
     <h2>Inscription</h2>
     <br><br><br>
     <form method="post" action="">
