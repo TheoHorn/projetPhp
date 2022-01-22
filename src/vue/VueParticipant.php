@@ -42,26 +42,24 @@ class VueParticipant extends Vue
     private function affichageListe(): string
     {
         $rs = "";
-        foreach ($this->tab as $liste) {
-            $rs .= "<div><p><h1>" . $liste->titre . "</h1> <br> Description : " . $liste->description . "</p><ol>";
-            $items = Item::query()->get('*')->where('liste_id', '=', $liste["no"]);
-            foreach ($items as $item) {
-                $rs .= '<li><a href="../../item/' . $item->id . '">' . $item->nom . '</a>';
-                $rs .= '<img src="../../web/img/' . $item->img . '" alt="' . $item->nom . '" height="200" width="200"/>';
-            }
-            $rs .= "</ol></div>";
+        $rs .= "<div><p><h1>" . $this->tab->titre . "</h1> <br> Description : " . $this->tab->description . "</p><ol>";
+        $items = Item::query()->get('*')->where('liste_id', '=', $this->tab->no);
+        foreach ($items as $item) {
+            $rs .= '<li><a href="../../item/' . $item->id . '">' . $item->nom . '</a>';
+            $rs .= '<img src="../../web/img/' . $item->img . '" alt="' . $item->nom . '" height="200" width="200"/>';
         }
+        $rs .= "</ol></div>";
+
         return $rs;
     }
 
     private function acceuil(): string
     {
-        $urlitem = "item";
         $urllist = "liste";
 
         $rs = "<h1>My WishList </h1>";
-        $rs .= "<p><a href='$urlitem'>Items</a></p>";
-        $rs .= "<p><a href='$urllist'>Listes</a></p>";
+
+        $rs .= "<p><a href='$urllist'>Listes publiques</a></p>";
         $rs .='<a href="./Connexion"><input type="button" value="Se Connecter"></a>';
         $rs .='<a href="./Inscription"><input type="button" value="S\'inscrire"></a>';
         $rs .= '<div>
