@@ -165,6 +165,11 @@ class ListeControleur
         $identifiant = filter_var($_POST["token"],
             FILTER_SANITIZE_STRING);;
         $l = Liste::query()->get('*')->where('tokenV', '=', $identifiant)->first();
-        return $rs->withHeader('Location', './liste/voir/'.$l->tokenV);
+        if ($l != null){
+            $url = './liste/voir/'.$l->tokenV;
+        }else{
+            $url = './';
+        }
+        return $rs->withHeader('Location', $url);
     }
 }
