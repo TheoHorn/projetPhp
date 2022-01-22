@@ -19,6 +19,10 @@ $app->get('/', function(Request $rq, Response $rs, array $args): Response {
     return (new Control\UserControleur)->acceuil($rq,$rs,$args);
 });
 
+$app->post('/', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ListeControleur)->redirectionListe($rq,$rs,$args);
+});
+
 $app->get('/item', function(Request $rq, Response $rs, array $args): Response {
     return (new Control\ItemControleur)->afficheItems($rq,$rs,$args);
 });

@@ -159,4 +159,12 @@ class ListeControleur
         }
         return $this->afficherMesListes($rq,$rs,$args);
     }
+
+    public function redirectionListe(Request $rq, Response $rs, array $args)
+    {
+        $identifiant = filter_var($_POST["token"],
+            FILTER_SANITIZE_STRING);;
+        $l = Liste::query()->get('*')->where('tokenV', '=', $identifiant)->first();
+        return $rs->withHeader('Location', './liste/voir/'.$l->tokenV);
+    }
 }
