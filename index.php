@@ -55,7 +55,7 @@ $app->post('/liste/new/ajouter', function(Request $rq, Response $rs, array $args
     return (new Control\ListeControleur)->ajoutListeDb($rq,$rs,$args);
 });
 
-$app->get('/liste/{tokenV}', function(Request $rq, Response $rs, array $args): Response {
+$app->get('/liste/voir/{tokenV}', function(Request $rq, Response $rs, array $args): Response {
     return (new Control\ListeControleur)->afficherListe($rq,$rs,$args);
 });
 

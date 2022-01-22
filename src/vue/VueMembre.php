@@ -58,7 +58,7 @@ class VueMembre extends Vue
         $s = "<h1>Mes Listes</h1>";
         $s .= "<div><ol>";
         foreach ($this->tab as $val) {
-            $s .= "<li>" . '<a href="./liste/'.$val->token.'">'.$val->titre.'</a>'. "</li>";
+            $s .= "<li>" . '<a href="./liste/voir/'.$val->tokenV.'">'.$val->titre.'</a>'. "</li>";
         }
         $s .= "</ol></div>";
         $s .= '<div>

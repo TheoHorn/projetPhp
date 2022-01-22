@@ -134,8 +134,6 @@ class ListeControleur
         $image = filter_var($_POST["Image"],
             FILTER_SANITIZE_STRING);
 
-
-
         //modif dans la bdd
         Item::query()->insert(["liste_id" => $id, "nom" => $nom, "descr" => $desc, "tarif" => $prix, "url" => $url, "img" => $image]);
         $v = new VueParticipant($liste,VueParticipant::AJOUT_ITEM_EFFECTUE);
