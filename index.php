@@ -106,6 +106,13 @@ $app->post('/Inscription', function(Request $rq, Response $rs, array $args )use(
     return (new Control\UserControleur)->verifInscription($rq,$rs,$args);
 });
 
+$app->get('/mesListes', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ListeControleur)->afficherMesListes($rq,$rs,$args);
+})->setName('mesListes');
+
+$app->post('/mesListes', function(Request $rq, Response $rs, array $args): Response {
+    return (new Control\ListeControleur)->ajouterListeUser($rq,$rs,$args);
+})->setName('mesListes');
 
 try {
     $app->run();

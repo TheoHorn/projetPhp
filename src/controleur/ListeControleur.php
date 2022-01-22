@@ -6,6 +6,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use wishlist\model\Item;
 use wishlist\model\Liste;
+use wishlist\model\Utilisateur;
 use wishlist\vue\VueMembre;
 use wishlist\vue\VueParticipant;
 use const http\Client\Curl\POSTREDIR_301;
@@ -13,16 +14,9 @@ use const http\Client\Curl\POSTREDIR_301;
 class ListeControleur
 {
     public function afficherListes(Request $rq, Response $rs, array $args):Response{
-        if($rq->getParam('tokenV')) {
 
-        }
-        if(isset($_SESSION['name'])) {
-            $liste = Liste::query()->get('*')->where('user_id','=',$_SESSION['id']);
-            $v = new VueMembre($liste, VueMembre::LISTS_VIEW);
-        } else {
-            $liste = Liste::query()->get('*')->where('visible','=','public');
-            $v = new VueParticipant( $liste , VueParticipant::LISTS_VIEW) ;
-        }
+        $liste = Liste::query()->get('*')->where('visible','=','public');
+        $v = new VueParticipant( $liste , VueParticipant::LISTS_VIEW) ;
         $rs->getBody()->write($v->render()) ;
         return $rs ;
     }
@@ -52,12 +46,22 @@ class ListeControleur
             $visible =filter_var($_POST['visible'] ,
                 FILTER_SANITIZE_STRING);
 
-            $tokenV = "nosecure".rand(1, 10000);
-            $tokenM = "nomodif".rand(1,10000);
+            //creation aleatoire d'une chaine de caractere
+            $tokenV = base_convert(hash('sha256', time() . mt_rand()), 16, 36);
+            $tokenM = base_convert(hash('sha256', time() . mt_rand()), 16, 36);
 
+            //selection d'une sous chaine dans la chaine
+            $tokenV = substr($tokenV,rand(0,38),12);
+            $tokenM = substr($tokenM,rand(0,38),12);
+
+            //verification si connexion effectue
+            if(isset($_SESSION['userid'])){
+                $uid = $_SESSION['userid'];
+            }else{
+                $uid = 0;
+            }
             //ajout dans la bdd
-            // il faut récupérer le user id quand la connexion sera faite TODO
-            Liste::query()->insert(array('user_id'=>0,'titre'=>$nom,'description'=>$desc,'expiration'=>$date,'tokenV'=> $tokenV,'tokenM'=>$tokenM,'visible'=>$visible));
+            Liste::query()->insert(array('user_id'=>$uid,'titre'=>$nom,'description'=>$desc,'expiration'=>$date,'tokenV'=> $tokenV,'tokenM'=>$tokenM,'visible'=>$visible));
             $v = new VueParticipant(array("0"=>$tokenV,"1"=>$tokenM),VueParticipant::AJOUT_LISTE);
             $rs->getBody()->write($v->render()) ;
             return $rs;
@@ -139,7 +143,22 @@ class ListeControleur
         return $rs;
     }
 
+    public function afficherMesListes(Request $rq, Response $rs, array $args)
+    {
+        $liste = Liste::query()->get('*')->where('user_id','=',$_SESSION['userid']);
+        $v = new VueMembre($liste, VueMembre::MY_LISTS_VIEW);
+        $rs->getBody()->write($v->render());
+        return $rs;
+    }
 
-
-
+    public function ajouterListeUser(Request $rq, Response $rs, array $args)
+    {
+        $identifiant = filter_var($_POST["token"],
+            FILTER_SANITIZE_STRING);;
+        $l = Liste::query()->get('*')->where('tokenM', '=', $identifiant)->first();
+        if ($l->user_id == 0){
+            Liste::query()->where('tokenM', '=', $identifiant)->update(["user_id"=>$_SESSION['userid']]);
+        }
+        return $this->afficherMesListes($rq,$rs,$args);
+    }
 }

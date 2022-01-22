@@ -17,7 +17,6 @@ class UserControleur
 
     function acceuil(Request $rq, Response $rs, array $args)
     {
-        $v = null;
         if(isset($_SESSION['username'])) {
             $v = new VueMembre(array(), VueMembre::ACCEUIL);
         } else {
