@@ -13,7 +13,7 @@ class VueUtilisateur extends Vue
     {
         $rs ='';
         $rs .='<div align="center">
-                    <h2>Connection</h2>
+                    <h2>Connexion</h2>
                     <br><br><br>
                     <form method="post" action="">
                         <table>
@@ -30,7 +30,7 @@ class VueUtilisateur extends Vue
                                     <label>Mot de passe :</label>
                                 </td>
                                 <td>
-                                    <input type="password" placeholder="Votre mot de passe" name="password" pattern=".[a-zA-z&0-9_]{8,12}" required>
+                                    <input type="password" placeholder="Votre mot de passe" name="password" pattern=".[a-zA-z&0-9_!]{8,12}" required>
                                 </td>
                             </tr>
                         </table>

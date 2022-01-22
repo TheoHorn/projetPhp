@@ -47,24 +47,28 @@ class ListeControleur
         if(isset($_POST['submit'])) {
             $nom = filter_var($_POST['Nom'],
                 FILTER_SANITIZE_STRING);
-            $desc =filter_var($_POST['Description'] ,
+            $desc = filter_var($_POST['Description'],
                 FILTER_SANITIZE_STRING);
             $date = $_POST["Date"];
-            $visible =filter_var($_POST['visible'] ,
+            $visible = filter_var($_POST['visible'],
                 FILTER_SANITIZE_STRING);
 
-            $tokenV = "nosecure".rand(1, 10000);
-            $tokenM = "nomodif".rand(1,10000);
+            $tokenV = base_convert(hash('sha256', time() . mt_rand()), 16, 36);
+            $tokenM = base_convert(hash('sha256', time() . mt_rand()), 16, 36);
 
-            //ajout dans la bdd
-            if(isset($_SESSION['username'])) {
-                Liste::query()->insert(array('user_id'=>$_SESSION['userid'],'titre'=>$nom,'description'=>$desc,'expiration'=>$date,'tokenV'=> $tokenV,'tokenM'=>$tokenM,'visible'=>$visible));
-                $v = new VueMembre(array(), VueMembre::MY_LISTS_VIEW);
+            //selection d'une sous chaine dans la chaine
+            $tokenV = substr($tokenV, rand(0, 38), 12);
+            $tokenM = substr($tokenM, rand(0, 38), 12);
+
+            //verification si connexion effectue
+            if (isset($_SESSION['userid'])) {
+                $uid = $_SESSION['userid'];
             } else {
-                Liste::query()->insert(array('user_id'=>0,'titre'=>$nom,'description'=>$desc,'expiration'=>$date,'tokenV'=> $tokenV,'tokenM'=>$tokenM,'visible'=>$visible));
-                $v = new VueParticipant(array("0"=>$tokenV,"1"=>$tokenM),VueParticipant::AJOUT_LISTE);
+                $uid = 0;
             }
-
+            //ajout dans la bdd
+            Liste::query()->insert(array('user_id' => $uid, 'titre' => $nom, 'description' => $desc, 'expiration' => $date, 'tokenV' => $tokenV, 'tokenM' => $tokenM, 'visible' => $visible));
+            $v = new VueParticipant(array("0" => $tokenV, "1" => $tokenM), VueParticipant::AJOUT_LISTE);
         }
         $rs->getBody()->write($v->render()) ;
         return $rs;
@@ -169,6 +173,17 @@ class ListeControleur
         $v = new VueMembre($liste, VueMembre::MY_LISTS_VIEW);
         $rs->getBody()->write($v->render());
         return $rs;
+    }
+
+    public function ajouterListeUser(Request $rq, Response $rs, array $args)
+    {
+        $identifiant = filter_var($_POST["token"],
+            FILTER_SANITIZE_STRING);;
+        $l = Liste::query()->get('*')->where('tokenM', '=', $identifiant)->first();
+        if ($l->user_id == 0){
+            Liste::query()->where('tokenM', '=', $identifiant)->update(["user_id"=>$_SESSION['userid']]);
+        }
+        return $this->afficherMesListes($rq,$rs,$args);
     }
 
 }
