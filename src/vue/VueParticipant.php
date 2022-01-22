@@ -332,7 +332,7 @@ class VueParticipant extends Vue
 
     private function afficherCreateurs()
     {
-        $rs = "";
+        $rs = "<div class='titre'><h1> Créateurs </h1></div>";
         foreach ($this->tab as $creat) {
             $rs .= '<li>' . $creat. '</a>';
         }
