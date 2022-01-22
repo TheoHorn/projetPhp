@@ -29,7 +29,7 @@ class ListeControleur
 
     function afficherListe(Request $rq, Response $rs, array $args): Response {
         $identifiant = $args['tokenV'];
-        $liste = Liste::query()->get('*')->where('tokenV', '=', $identifiant);
+        $liste = Liste::query()->get('*')->where('tokenV', '=', $identifiant)->first();
         $v = new VueParticipant( $liste , VueParticipant::LIST_VIEW) ;
         $rs->getBody()->write($v->render()) ;
         return $rs ;
