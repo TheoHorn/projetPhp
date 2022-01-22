@@ -8,6 +8,7 @@ use Slim\Http\Response;
 use wishlist\model\Role;
 use wishlist\model\Utilisateur;
 use wishlist\vue\VueMembre;
+use wishlist\vue\VueParticipant;
 use wishlist\vue\VueUtilisateur;
 
 class UserControleur
@@ -20,7 +21,7 @@ class UserControleur
         if(isset($_SESSION['username'])) {
             $v = new VueMembre(array(), VueMembre::ACCEUIL);
         } else {
-            $v = new VueUtilisateur(array(), VueUtilisateur::ACCEUIL);
+            $v = new VueParticipant(array(), VueParticipant::ACCEUIL);
         }
         $rs->getBody()->write($v->render());
         return $rs;

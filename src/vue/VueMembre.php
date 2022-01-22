@@ -12,12 +12,11 @@ class VueMembre extends Vue
     const ACCEUIL = 4;
     const MY_LISTS_VIEW = 3;
 
-
     private function acceuil()
     {
         $urlitem = "item";
         $urllist = "liste";
-        $rs = "<h1>My WishList </h1>";
+        $rs = "<div class='titre'><h1>My WishList </h1></div>";
         $rs .= '<div><p>Bonjour '.$_SESSION['username'].', vous etes bien connecter</p></div>';
         $rs .= "<p><a href='$urlitem'>Items</a></p>";
         $rs .= "<p><a href='$urllist'>Listes</a></p>";

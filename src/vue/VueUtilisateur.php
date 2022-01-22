@@ -8,19 +8,6 @@ class VueUtilisateur extends Vue
 {
     const INSCRIPTION = 1;
     const CONNEXION = 2;
-    const ACCEUIL = 3;
-
-
-    private function acceuil() {
-        $urlitem = "item";
-        $urllist = "liste";
-        $rs = "<h1>My WishList </h1>";
-        $rs .= "<p><a href='$urlitem'>Items</a></p>";
-        $rs .= "<p><a href='$urllist'>Listes</a></p>";
-        $rs .='<a href="./Connexion"><input type="button" value="Se Connecter"></a>';
-        $rs .='<a href="./Inscription"><input type="button" value="S\'inscrire"></a>';
-        return $rs;
-    }
 
     private function connexion()
     {

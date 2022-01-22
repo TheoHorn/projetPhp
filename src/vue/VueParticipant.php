@@ -59,7 +59,7 @@ class VueParticipant extends Vue
         $urlitem = "item";
         $urllist = "liste";
 
-        $rs = "<h1>My WishList </h1>";
+        $rs = "<div class='titre'><h1>My WishList </h1></div>";
         $rs .= "<p><a href='$urlitem'>Items</a></p>";
         $rs .= "<p><a href='$urllist'>Listes</a></p>";
         $rs .='<a href="./Connexion"><input type="button" value="Se Connecter"></a>';
