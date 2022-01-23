@@ -10,23 +10,26 @@ class VueParticipant extends Vue
 
     const LISTS_VIEW = 1;
     const LIST_VIEW = 2;
-    const ACCEUIL = 4;
-    const ITEM_VIEW = 5;
-    const AJOUT_LISTE = 6;
-    const MODIF_VIEW = 7;
-    const NEW_LISTE = 8;
-    const MODIF_INFOSG = 9;
-    const MODIF_EFFECTUE = 10;
-    const AJOUT_ITEM = 11;
-    const AJOUT_ITEM_EFFECTUE = 12;
-    const MODIF_ITEM = 13;
-    const MODIF_ITEM_EFFECTUE = 14;
-    const SUPPRESSION_ITEM_LISTE = 15;
+    const AJOUT_LISTE = 11;
+    const MODIF_VIEW = 12;
+    const NEW_LISTE = 13;
+    const MODIF_INFOSG = 21;
+    const MODIF_EFFECTUE = 22;
+    const AJOUT_ITEM = 31;
+    const AJOUT_ITEM_EFFECTUE = 32;
+    const MODIF_ITEM = 33;
+    const MODIF_ITEM_EFFECTUE = 34;
+    const SUPPRESSION_ITEM_LISTE = 35;
+    const ITEMS_VIEW = 41;
+    const ITEM_VIEW = 42;
     const ITEM_RESERV = 51;
     const SAVE_RESERV = 52;
     const ITEM_COMMENT = 53;
     const ITEM_COMMENT_DONE = 54;
-    const CREATEURS_VIEW = 60;
+    const ACCEUIL = 61;
+    const CREATEURS_VIEW =70;
+    const INSCRIPTION = 80;
+    const CONNEXION = 81;
 
 
     private function affichageListes(): string
@@ -117,6 +120,15 @@ class VueParticipant extends Vue
         }
         $rs .='<br><a href="./'.$this->tab->id.'/commentaire"><input type="button" value=" Ajouter un commentaire "></a>';
         return $rs;
+    }
+
+    private function afficherItems(){
+        $html = "";
+        foreach ($this->tab as $item) {
+            $html = '<p><a href="./item/'.$item->id.'">'.$item->nom.'</a></p>';
+            $html .= '<img src="web/img/'.$item->img.'" alt="'.$item->nom.'" height="200" width="200"/>';
+        }
+        return $html;
     }
 
     private function laisserCommentItemVue(): string
@@ -353,6 +365,78 @@ class VueParticipant extends Vue
         return $rs;
     }
 
+    private function connexion()
+    {
+        $rs ='';
+        $rs .='<div align="center">
+                    <h2>Connexion</h2>
+                    <br><br><br>
+                    <form method="post" action="">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label for="identifiant">Identifiant :</label>
+                                </td>
+                                <td>
+                                    <input type="text" placeholder="Votre identifiant" name="nom" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Mot de passe :</label>
+                                </td>
+                                <td>
+                                    <input type="password" placeholder="Votre mot de passe" name="password" pattern=".[a-zA-z&0-9_!]{8,12}" required>
+                                </td>
+                            </tr>
+                        </table>
+                        <input type="submit" name="connection" value="Valider">
+                    </form>';
+        $rs .= '<a href="./Inscription">S\'inscrire</a>';
+
+        return $rs;
+    }
+
+    private function inscription()
+    {
+        $rs ='';
+        $rs .='<div align="center">
+                    <h2>Inscription</h2>
+                    <br><br><br>
+                    <form method="post" action="">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label for="identifiant">Identifiant :</label>
+                                </td>
+                                <td>
+                                    <input type="text" placeholder="Votre identifiant" name="identifiant" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Mot de passe :</label>
+                                </td>
+                                <td>
+                                    <input type="password" placeholder="Votre mot de passe" name="password" pattern=".[a-zA-z&0-9_]{8,20}" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Confirmer votre mot de passe :</label>
+                                </td>
+                                <td>
+                                    <input type="password" placeholder="Votre mot de passe" name="reppassword" pattern=".[a-zA-z&0-9_]{8,20}" required>
+                                </td>
+                            </tr>
+                        </table>
+                        <br>
+                        <input type="submit" name="inscription" value="Je m\'incsris"/>
+                    </form>
+                </div>';
+        return $rs;
+    }
+
     public function render(): string
     {
         switch ($this->selecteur) {
@@ -361,6 +445,9 @@ class VueParticipant extends Vue
                 break;
             case self::LIST_VIEW :
                 $content = $this->affichageListe();
+                break;
+            case self::ITEMS_VIEW :
+                $content = $this->afficherItems();
                 break;
             case self::ACCEUIL :
                 $content = $this->acceuil();
@@ -412,6 +499,12 @@ class VueParticipant extends Vue
                 break;
             case self::CREATEURS_VIEW :
                 $content = $this->afficherCreateurs();
+                break;
+            case self::INSCRIPTION:
+                $content = $this->inscription();
+                break;
+            case self::CONNEXION:
+                $content = $this->connexion();
                 break;
             default :
                 $content = "<p>selecteur de la vue inadéquat</p>";

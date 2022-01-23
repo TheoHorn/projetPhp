@@ -8,6 +8,7 @@ use Slim\Http\Response;
 use wishlist\model\Liste;
 use wishlist\model\Role;
 use wishlist\model\Utilisateur;
+use wishlist\vue\Vue;
 use wishlist\vue\VueMembre;
 use wishlist\vue\VueParticipant;
 use wishlist\vue\VueUtilisateur;
@@ -29,7 +30,7 @@ class UserControleur
     }
 
     public function connection(Request $rq, Response $rs, array $args) {
-        $v = new VueUtilisateur(array(), VueUtilisateur::CONNEXION);
+        $v = new VueParticipant(array(), VueParticipant::CONNEXION);
         $rs->getBody()->write($v->render());
         return $rs;
     }
@@ -48,7 +49,7 @@ class UserControleur
     }
 
     public function inscription(Request $rq, Response $rs, array $args) {
-        $v = new VueUtilisateur($args,VueUtilisateur::INSCRIPTION);
+        $v = new VueParticipant($args,VueParticipant::INSCRIPTION);
         $rs->getBody()->write($v->render());
         return $rs;
     }

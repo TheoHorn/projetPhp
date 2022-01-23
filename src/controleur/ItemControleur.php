@@ -12,13 +12,9 @@ use wishlist\vue\VueParticipant;
 class ItemControleur
 {
     function afficheItems(Request $rq, Response $rs, array $args): Response {
-        $items = \wishlist\model\Item::all();
-
-        foreach ($items as $item) {
-            $html = '<p><a href="./item/'.$item->id.'">'.$item->nom.'</a></p>';
-            $html .= '<img src="web/img/'.$item->img.'" alt="'.$item->nom.'" height="200" width="200"/>';
-            $rs->getBody()->write($html);
-        }
+        $items = Item::all();
+        $v = new VueParticipant($items,VueParticipant::ITEMS_VIEW);
+        $rs->getBody()->write($v->render());
         return $rs;
     }
 
