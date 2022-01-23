@@ -83,6 +83,22 @@ class VueParticipant extends Vue
                         <br><input type="submit" name="submit" value="Valider">
                     </form>
                 </div>';
+        $rs .= '<div>
+            <h2>Modification d\'une liste</h2>
+                    <form method="post" action="">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label for="identifiant">Veuillez entre le Token de Modification de la liste :</label>
+                                </td>
+                                <td>
+                                    <input type="text" placeholder="Token de Modification" name="tokenM" required>
+                                </td>
+                            </tr>
+                        </table>
+                        <br><input type="submit" name="modif" value="Valider">
+                    </form>
+        </div>';
         return $rs;
     }
 

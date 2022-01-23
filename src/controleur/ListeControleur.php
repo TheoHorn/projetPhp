@@ -166,7 +166,7 @@ class ListeControleur
         }
         if(isset($_POST['modif'])) {
             $liste = Liste::query()->get('*')->where('tokenM','=',$_POST['tokenM'])->first();
-            if($_SESSION['userid']==$liste->user_id) {
+            if($liste!=null) {
                 return $rs->withHeader('Location','./liste/modifier/'.$liste->tokenM);
             }
         }
