@@ -11,11 +11,14 @@ class Authentication
         // vérif injection sql
         $pass = filter_var($password, FILTER_SANITIZE_STRING);
         $name = filter_var($userid, FILTER_SANITIZE_STRING);
-        // vérif correspondance avec patterne mdp
 
         // $alea = random_bytes(32); a ajouter aussi ?
         $hash = password_hash($pass, PASSWORD_DEFAULT, ['cost'=> 12]);
         Utilisateur::query()->insert(array('username'=>$name,'password'=>$hash));
+    }
+
+    public static function updatePass($userid,$password) {
+        Utilisateur::query()->where('id','=',$userid)->update(array('password'=>$password));
     }
 
     /**

@@ -58,12 +58,17 @@ class UserControleur
         if (isset($_POST['inscription'])) {
             $name = $_POST['identifiant'];
             $password = $_POST['password'];
-            $res = Utilisateur::query()->get('*')->where('username','=',$name)->first();
-            if($res!=null) {
-                echo "<script>alert('Nom d\'utilisateur déjà existant');</script>";
+            if($_POST['password']==$_POST['reppassword']) {
+                $res = Utilisateur::query()->get('*')->where('username','=',$name)->first();
+                if($res!=null) {
+                    echo "<script>alert('Nom d\'utilisateur déjà existant');</script>";
+                } else {
+                    Authentication::createUser($name, $password);
+                }
             } else {
-                Authentication::createUser($name, $password);
+                echo "<script>alert('Les mots de passe ne correspondent pas');</script>";
             }
+
         }
         return $rs->withHeader('Location','./Connexion');
     }
@@ -105,4 +110,74 @@ class UserControleur
         $rs->getBody()->write($v->render());
         return $rs;
     }
+
+    public function monCompte(Request $rq, Response $rs, array $args) {
+        $ut = Utilisateur::query()->get('*')->where('id','=', $_SESSION['userid'])->first();
+        if($ut!=null) {
+            $v = new VueMembre(array(), VueMembre::MY_ACCOUNT);
+            $rs->getBody()->write($v->render());
+            return $rs;
+        } else {
+            echo "<script>alert('Vous n\'avez pas accés à cette fonctionalité);</script>";
+            return $rs->withHeader('Location', './');
+        }
+    }
+
+    public function modifPassword(Request $rq, Response $rs, array $args)
+    {
+        $v = new VueMembre(array(), VueMembre::MODIF_PASS);
+        $rs->getBody()->write($v->render());
+        return $rs;
+    }
+
+    public function updatePass(Request $rq, Response $rs, array $args) {
+        $newpassw = filter_var($_POST['newpassword'], FILTER_SANITIZE_STRING);
+        $ancpassw = filter_var($_POST['ancpassword'], FILTER_SANITIZE_STRING);
+        $repnewpassw = filter_var($_POST['repnewpassword'], FILTER_SANITIZE_STRING);
+        if(isset($_SESSION['username'])){
+            $ut = Utilisateur::query()->get('*')->where('id','=',$_SESSION['userid']);
+            if(password_verify($ancpassw,$ut->password)) {
+                if (isset($_POST['modifpass'])) {
+                    if($newpassw!=$ancpassw) {
+                        if($newpassw==$repnewpassw) {
+                            $hash = password_hash($newpassw, PASSWORD_DEFAULT, ['cost'=> 12]);
+                            Authentication::updatePass($_SESSION['userid'], $hash);
+                        } else {
+                            echo "<script>alert('Les mots de passe ne correspondent pas');</script>";
+                        }
+                    } else {
+                        echo "<script>alert('Vous devez choisir un mot de passe différent de l\'ancien');</script>";
+                    }
+                }
+            } else {
+                echo "<script>alert('Le mot de passe que vous avez saisie n\'est pas votre mot de passe actuelle');</script>";
+            }
+
+        }
+        return $rs->withHeader('Location', './Connexion');
+    }
+
+    public function modifIdentifiant(Request $rq, Response $rs, array $args)
+    {
+        $v = new VueMembre(array(), VueMembre::MODIF_ID);
+        $rs->getBody()->write($v->render());
+        return $rs;
+    }
+
+    public function updateId(Request $rq, Response $rs, array $args) {
+        $newid = filter_var($_POST['newId'], FILTER_SANITIZE_STRING);
+        if(isset($_SESSION['username'])) {
+            if(isset($_POST['valider'])) {
+                if($_SESSION['username']!=$newid) {
+                    Utilisateur::query()->where('id','=',$_SESSION['userid'])->update(array('username'=>$newid));
+                    $_SESSION['username']=$newid;
+                } else {
+                    echo "<script>alert('Veuillez choisir un identifiant différent de l\'ancien');</script>";
+                }
+            }
+        }
+        return $rs->withHeader('Location', './monCompte');
+    }
+
+
 }

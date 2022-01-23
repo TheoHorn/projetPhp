@@ -64,13 +64,16 @@ class VueParticipant extends Vue
 
         $rs = "<div><h1 class='titre'>My WishList </h1></div>";
 
-        $rs .= "<p><a href='$urllist'>Listes publiques</a></p>";
-
-        $rs .= "<p><a href='$urlcreat'>Créateurs</a></p>";
-
-        $rs .='<a href="./Connexion"><input type="button" value="Se Connecter"></a>';
-        $rs .='<a href="./Inscription"><input type="button" value="S\'inscrire"></a>';
-        $rs .= '<div>
+        // nav bar
+        $rs .=<<<END
+                <div class="nav-bar">
+                    <a href='$urllist'>Listes publiques</a>
+                    <a href='$urlcreat'>Créateurs</a>
+                    <a href="./Connexion">Se Connecter</a>
+                    <a href="./Inscription">S'inscrire</a>
+                </div>
+                END;
+        $rs .= '<div class="access">
                     <h2>Acceder à une liste</h2>
                     <form method="post" action="">
                         <table>
@@ -86,7 +89,7 @@ class VueParticipant extends Vue
                         <br><input type="submit" name="submit" value="Valider">
                     </form>
                 </div>';
-        $rs .= '<div>
+        $rs .= '<div class="modify">
             <h2>Modification d\'une liste</h2>
                     <form method="post" action="">
                         <table>

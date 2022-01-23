@@ -126,6 +126,26 @@ $app->get('/createurs', function (Request $rq, Response $rs, array $args): Respo
     return (new Control\UserControleur)->afficherCreateurs($rq,$rs,$args);
 });
 
+$app->get('/monCompte', function (Request $rq, Response $rs, array $args): Response {
+    return (new Control\UserControleur)->monCompte($rq,$rs,$args);
+});
+
+$app->get('/username', function (Request $rq, Response $rs, array $args): Response {
+    return (new Control\UserControleur)->modifIdentifiant($rq,$rs,$args);
+});
+
+$app->post('/username', function (Request $rq, Response $rs, array $args): Response {
+    return (new Control\UserControleur)->updateId($rq,$rs,$args);
+});
+
+$app->get('/password', function (Request $rq, Response $rs, array $args): Response {
+    return (new Control\UserControleur)->modifPassword($rq,$rs,$args);
+});
+
+$app->post('/password', function (Request $rq, Response $rs, array $args): Response {
+    return (new Control\UserControleur)->updatePass($rq,$rs,$args);
+});
+
 try {
     $app->run();
 } catch (Throwable $e) {
