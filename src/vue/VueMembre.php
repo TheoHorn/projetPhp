@@ -15,8 +15,10 @@ class VueMembre extends Vue
     private function acceuil()
     {
         $urllist = "liste";
+        $urlcreat = "createurs";
+
         $rs = "<div><h1  class='titre'>My WishList </h1></div>";
-        $rs .= '<div><p>Bonjour '.$_SESSION['username'].', vous etes bien connecter</p></div>';
+        $rs .= '<div><p>Bonjour '.$_SESSION['username'].', vous êtes bien connecté</p></div>';
         $rs .= "<p><a href='$urllist'>Listes publiques</a></p>";
         $rs .= "<p><a href='mesListes'>Mes Listes</a></p>";
         $rs .= "<p><a href='$urlcreat'>Créateurs</a></p>";
