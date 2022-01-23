@@ -218,4 +218,4 @@ Liste des fonctionnalités et de leur(s) créateur(s) :
 - Rendre une liste publique           : Maxime
 - Afficher les listes publiques       : Maxime
 - Joindre des listes à son compte     : Théo
-- Liste des
+- Liste des créateurs                 : Théo
