@@ -1,3 +1,9 @@
+url vers github : https://github.com/TheoHorn/projetPhp
+url vers webetu :
+
+Jeu de données permettant de tester l'application :
+
+
 Liste des fonctionnalités et de leur(s) créateur(s) :
 
 - Afficher une liste de souhaits      : Remi / Théo (merge de 2 versions)
