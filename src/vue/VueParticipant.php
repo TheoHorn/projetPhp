@@ -391,7 +391,7 @@ class VueParticipant extends Vue
                                     <label>Mot de passe :</label>
                                 </td>
                                 <td>
-                                    <input type="password" placeholder="Votre mot de passe" name="password" pattern=".[a-zA-z&0-9_!]{8,12}" required>
+                                    <input type="password" placeholder="Votre mot de passe" name="password" pattern=".[a-zA-z&0-9_!]{8,20}" required>
                                 </td>
                             </tr>
                         </table>
@@ -423,7 +423,7 @@ class VueParticipant extends Vue
                                     <label>Mot de passe :</label>
                                 </td>
                                 <td>
-                                    <input type="password" placeholder="Votre mot de passe" name="password" pattern=".[a-zA-z&0-9_]{8,20}" required>
+                                    <input type="password" placeholder="Votre mot de passe" name="password" pattern=".[a-zA-z&0-9_!]{8,20}" required>
                                 </td>
                             </tr>
                             <tr>
