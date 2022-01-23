@@ -16,3 +16,32 @@ html{
     display:block;
     margin:16px;
 }
+
+h1 {
+    font-size: 28px;
+    text-shadow: -1px -1px #ff6b33, 1px 1px #ff6b33, -3px 0 4px #000;
+    font-family:Arial, Helvetica, sans-serif;
+    color: #ffe633;
+    padding:8px;
+    font-weight:lighter;
+    -moz-box-shadow: 2px 2px 6px #888;
+    -webkit-box-shadow: 2px 2px 6px #888;
+    box-shadow:2px 2px 6px #888;
+    text-align:center;
+    display:block;
+    margin:8px;
+}
+ h2 {
+     font-size: 28px;
+     text-shadow: -1px -1px #ff6b33, 1px 1px #ff6b33, -3px 0 4px #000;
+     font-family:Arial, Helvetica, sans-serif;
+     color: #ffe633;
+     padding:8px;
+     font-weight:lighter;
+     -moz-box-shadow: 2px 2px 6px #888;
+     -webkit-box-shadow: 2px 2px 6px #888;
+     box-shadow:2px 2px 6px #888;
+     text-align:center;
+     display:block;
+     margin:8px;
+ }

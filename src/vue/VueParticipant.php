@@ -62,7 +62,7 @@ class VueParticipant extends Vue
         $urlcreat = "createurs";
         $urllist = "liste";
 
-        $rs = "<div class='titre'><h1>My WishList </h1></div>";
+        $rs = "<div><h1 class='titre'>My WishList </h1></div>";
 
         $rs .= "<p><a href='$urllist'>Listes publiques</a></p>";
 
@@ -431,7 +431,7 @@ class VueParticipant extends Vue
                             </tr>
                         </table>
                         <br>
-                        <input type="submit" name="inscription" value="Je m\'incsris"/>
+                        <input type="submit" name="inscription" value="Je m\'inscris"/>
                     </form>
                 </div>';
         return $rs;
