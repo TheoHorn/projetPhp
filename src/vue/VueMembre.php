@@ -19,6 +19,7 @@ class VueMembre extends Vue
         $rs .= '<div><p>Bonjour '.$_SESSION['username'].', vous etes bien connecter</p></div>';
         $rs .= "<p><a href='$urllist'>Listes publiques</a></p>";
         $rs .= "<p><a href='mesListes'>Mes Listes</a></p>";
+        $rs .= "<p><a href='$urlcreat'>Créateurs</a></p>";
         $rs .= '<div>
                     <h2>Acceder à une liste</h2>
                     <form method="post" action="">
@@ -89,7 +90,8 @@ class VueMembre extends Vue
         $s = "<h1>Mes Listes</h1>";
         $s .= "<div><ol>";
         foreach ($this->tab as $val) {
-            $s .= "<li>" . '<a href="./liste/voir/'.$val->tokenV.'">'.$val->titre.'</a>'. "</li>";
+            $s .= "<li>" . '<a href="./liste/voir/'.$val->tokenV.'">'.$val->titre.'</a>';
+            $s .= '<a href="./liste/modifier/'.$val->tokenM.'"><input type="button" value=" Modifier "></a></li>';
         }
         $s .= "</ol></div>";
         $s .= '<div>

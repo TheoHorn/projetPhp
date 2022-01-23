@@ -1,0 +1,19 @@
+Liste des fonctionnalités et de leur(s) créateur(s) :
+
+- Afficher une liste de souhaits      : Remi / Théo (merge de 2 versions)
+- Afficher un item d'une liste        : Remi / Théo (        ""         )
+- Réserver un item                    : Remi
+- Ajouter un message avec réservation : Remi
+- Créer une liste                     : Jocelyn
+- Modifier les infos générales liste  : Théo
+- Ajouter des items                   : Théo / Louis
+- Modifier/Supprimer un item          : Théo
+- Images avec item                    : Théo
+- Partager une liste                  : Théo
+- Créer un compte                     : Maxime / Louis
+- S'authentifier                      : Maxime
+- Modifier son compte                 : Maxime
+- Rendre une liste publique           : Maxime
+- Afficher les listes publiques       : Maxime
+- Joindre des listes à son compte     : Théo
+- Liste des

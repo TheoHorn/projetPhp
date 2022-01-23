@@ -72,7 +72,7 @@ $app->get('/liste/modifier/{tokenM}/infosG', function(Request $rq, Response $rs,
 });
 
 
-$app->post('/liste/modifier/{tokenM}/infosG/verification', function(Request $rq, Response $rs, array $args): Response {
+$app->post('/liste/modifier/{tokenM}/infosG', function(Request $rq, Response $rs, array $args): Response {
      return (new Control\ListeControleur)->modifierListeBdd($rq,$rs,$args);
 });
 

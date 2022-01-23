@@ -169,7 +169,9 @@ class VueParticipant extends Vue
         $html = "<h1> La liste a été crée vous pouvez y ajouter des items</h1>";
         $html .= "<div>
                   <p> Le token pour acceder aux informations de la nouvelle liste est le suivant : ".$this->tab[0]."</p>
+                  <p> Pour partager cette liste, vous pouvez utiliser cette url : liste/voir/".$this->tab[0]."</p>
                   <p> Si vous souhaitez modifier votre liste, utiliser ce token : ".$this->tab[1]."</p>
+                  <p> Pour modifier cette liste, vous pouvez utiliser cette url : liste/modifier/".$this->tab[1]."</p>
                   </div>";
         $html .= '<a href="../../liste">Compris</a>';
         return $html;
@@ -178,7 +180,7 @@ class VueParticipant extends Vue
     private function affichageModifEffectue(): string
     {
         $html = "<h1> La liste a été modifié avec succès</h1>";
-        $html .= '<a href="./../../'.$this->tab->tokenM.'"><input type="button" value=" Retour "></a>';
+        $html .= '<a href="./../../.."><input type="button" value=" Retour "></a>';
         return $html;
     }
 
